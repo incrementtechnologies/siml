@@ -56,6 +56,41 @@ export default{
     meta: {
       tokenRequired: false
     }
+  }, {
+    path: '/accounts',
+    name: 'accounts',
+    component: resolve => require(['components/increment/settings/SubAccounts.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/products',
+    name: 'products',
+    component: resolve => require(['modules/menu/Products.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/add_product',
+    name: 'addProducts',
+    component: resolve => require(['modules/menu/ProductDetails.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/edit_product',
+    name: 'editProducts',
+    component: resolve => require(['modules/menu/ProductDetails.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/bookings',
+    name: 'produbookingscts',
+    component: resolve => require(['modules/booking/List.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
   }
   ]
 }
