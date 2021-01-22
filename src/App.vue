@@ -102,6 +102,8 @@
 .btn-warning{
   background: $warning !important;
   height: 35px !important;
+  border-color: $warning !important;
+  color: white !important;
 }
 
 /* TEXT */
