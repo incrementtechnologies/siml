@@ -84,8 +84,10 @@
 export default {
   data() {
     return {
+      activeSortTitle: null,
       reservee: null,
       date: null,
+      status: null,
       guest: null,
       title: 'Empty Bookings!',
       guide: 'No activity at the moment.',
@@ -139,7 +141,7 @@ export default {
     }
   },
   components: {
-    'filter-product': require('components/increment/ecommerce/filter/Product.vue'),
+    'filter-product': require('components/increment/imarketvue/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
