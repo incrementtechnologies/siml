@@ -61,28 +61,28 @@ export default{
     name: 'accounts',
     component: resolve => require(['components/increment/settings/SubAccounts.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }, {
     path: '/products',
     name: 'products',
     component: resolve => require(['modules/menu/Products.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }, {
     path: '/edit_product',
     name: 'editProducts',
     component: resolve => require(['components/increment/imarketvue/product/EditProduct'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }, {
     path: '/bookings',
     name: 'produbookingscts',
     component: resolve => require(['modules/booking/List.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }
   ]

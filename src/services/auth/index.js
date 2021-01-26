@@ -120,21 +120,17 @@ export default {
             'column': 'id'
           }]
         }
-        if(userInfo.account_type === 'ADMIN'){
-          vue.APIRequest('accounts/retrieve', parameter).then(response => {
-            if(response.data.length > 0){
-              this.otpDataHolder.userInfo = userInfo
-              this.otpDataHolder.data = response.data
-              this.checkOtp(response.data[0].notification_settings)
-            }
-          })
-          this.retrieveNotifications(userInfo.id)
-          this.retrieveMessages(userInfo.id, userInfo.account_type)
-          if(callback){
-            callback(userInfo)
+        vue.APIRequest('accounts/retrieve', parameter).then(response => {
+          if(response.data.length > 0){
+            this.otpDataHolder.userInfo = userInfo
+            this.otpDataHolder.data = response.data
+            this.checkOtp(response.data[0].notification_settings)
           }
-        }else{
-          this.deaunthenticate()
+        })
+        this.retrieveNotifications(userInfo.id)
+        this.retrieveMessages(userInfo.id, userInfo.account_type)
+        if(callback){
+          callback(userInfo)
         }
       })
     }, (response, status) => {
@@ -200,6 +196,7 @@ export default {
     localStorage.removeItem('google_code')
     localStorage.removeItem('google_scope')
     localStorage.removeItem('xyzABCdefPayhiram')
+    console.log('deaunthenticate')
     this.setUser(null)
     let vue = new Vue()
     vue.APIRequest('authenticate/invalidate')
@@ -329,7 +326,7 @@ export default {
     let notifSetting = data[0].notification_settings
     let subAccount = data[0].sub_account
     this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
-    ROUTER.push('/requests')
+    // ROUTER.push('/accounts')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
