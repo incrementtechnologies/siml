@@ -71,16 +71,9 @@ export default{
       tokenRequired: false
     }
   }, {
-    path: '/add_product',
-    name: 'addProducts',
-    component: resolve => require(['modules/menu/ProductDetails.vue'], resolve),
-    meta: {
-      tokenRequired: false
-    }
-  }, {
     path: '/edit_product',
     name: 'editProducts',
-    component: resolve => require(['modules/menu/ProductDetails.vue'], resolve),
+    component: resolve => require(['components/increment/imarketvue/product/EditProduct'], resolve),
     meta: {
       tokenRequired: false
     }
