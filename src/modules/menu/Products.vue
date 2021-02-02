@@ -30,12 +30,38 @@
           <td>{{item.type}}</td>
           <td>{{item.status}}</td>
           <td>
-            <button class="btn btn-primary" @click="redirect('/edit_product')">EDIT</button>
+            <button class="btn btn-primary" @click="update()">EDIT</button>
             <button class="btn btn-danger" @click="removeItem()">DELETE</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="modal fade" id="updateProduct" tabindex="-1" role="dialog" aria-labelledby="updateProduct" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Update Product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Product Name</label>
+              <input type="text" class="form-control" placeholder="Type name of product here...">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Description</label>
+              <input type="text" class="form-control" placeholder="Type description here...">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <confirmation
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
@@ -138,6 +164,9 @@ export default {
     }
   },
   methods: {
+    update() {
+      $('#updateProduct').modal('show')
+    },
     sortArrayTitle(sort){
       this.activeSortTitle = sort
       if(sort === 'desc'){
