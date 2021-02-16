@@ -59,7 +59,7 @@ export default{
   }, {
     path: '/accounts',
     name: 'accounts',
-    component: resolve => require(['components/increment/settings/SubAccounts.vue'], resolve),
+    component: resolve => require(['modules/account/List.vue'], resolve),
     meta: {
       tokenRequired: true
     }
