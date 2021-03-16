@@ -20,6 +20,12 @@ export default {
   USER_TYPE: [{
     title: 'USER'
   }],
+  profileMenu: [
+    {
+      title: 'My Profile',
+      icon: 'fa fa-cog',
+      route: '/profile'
+    }],
   USER_TYPE_SETTING: false,
   plan: false,
   broadcastingFlag: true,
