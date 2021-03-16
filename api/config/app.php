@@ -181,6 +181,9 @@ return [
         Increment\Common\Invitation\InvitationServiceProvider::class,
         Increment\Messenger\MessengerServiceProvider::class,
         Increment\Imarket\Merchant\MerchantServiceProvider::class,
+        Increment\Imarket\Reservation\ReservationServiceProvider::class,
+        Increment\Imarket\Location\LocationServiceProvider::class,
+        Increment\Imarket\Product\ProductServiceProvider::class,
         /*
          * Application Service Providers...
          */
