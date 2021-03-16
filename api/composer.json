@@ -45,8 +45,7 @@
             "packages/increment/imarket/location/src/",
             "packages/increment/imarket/reservation/src/",
             "packages/increment/imarket/product/src/",
-            "packages/increment/imarket/bundled/src/",
-            "packages/increment/imarket/wishlist/src/"
+            "packages/increment/imarket/bundled/src/"
         ],
         "psr-4": {
             "App\\": "app/",
@@ -64,8 +63,7 @@
             "Increment\\Imarket\\Location\\": "packages/increment/imarket/location/src/",
             "Increment\\Imarket\\Reservation\\": "packages/increment/imarket/reservation/src/",
             "Increment\\Imarket\\Product\\":"packages/increment/imarket/product/src/",
-            "Increment\\Imarket\\Bundled\\":"packages/increment/imarket/bundled/src/",
-            "Increment\\Imarket\\Wishlist\\":"packages/increment/imarket/wishlist/src/"
+            "Increment\\Imarket\\Bundled\\":"packages/increment/imarket/bundled/src/"
         }
     },
     "autoload-dev": {

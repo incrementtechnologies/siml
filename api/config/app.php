@@ -185,7 +185,6 @@ return [
         Increment\Imarket\Location\LocationServiceProvider::class,
         Increment\Imarket\Product\ProductServiceProvider::class,
         Increment\Imarket\Bundled\BundledServiceProvider::class,
-        Increment\Imarket\Wishlist\WishlistServiceProvider::class,
         /*
          * Application Service Providers...
          */
