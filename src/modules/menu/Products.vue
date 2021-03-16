@@ -10,7 +10,7 @@
       :grid="['list']">
     </filter-product>
 
-    <table v-if="data" class="table table-bordered table-responsive">
+    <table v-if="data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
           <td>Title
@@ -43,7 +43,7 @@
     @onConfirm="remove(id)"
     >
     </confirmation>
-    <empty v-if="data === null" :title="title" :action="guide"></empty>
+    <empty v-if="data.length === 0" :title="title" :action="guide"></empty>
   </div>
 </template>
 <style>
@@ -63,23 +63,11 @@ import axios from 'axios'
 import COMMON from 'src/common.js'
 export default {
   mounted(){
-    this.filterBy('all')
+    this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
   },
   data(){
     return {
-      data: [{
-        name: 'Product 1',
-        type: 'Regular',
-        status: 'PENDING'
-      }, {
-        name: 'Product 2',
-        type: 'Regular',
-        status: 'PENDING'
-      }, {
-        name: 'Product 3',
-        type: 'Regular',
-        status: 'PUBLISHED'
-      }],
+      data: [],
       user: AUTH.user,
       config: CONFIG,
       productId: null,
@@ -122,7 +110,11 @@ export default {
           payload_value: 'desc',
           type: 'text'
         }]
-      }]
+      }],
+      currentFilter: null,
+      currentSort: null,
+      offset: 0,
+      limit: 6
     }
   },
   components: {
@@ -138,6 +130,40 @@ export default {
     }
   },
   methods: {
+    retrieve(sort = null, filter = null){
+      console.log(this.user)
+      if(filter !== null){
+        this.currentFilter = filter
+      }
+      if(sort !== null){
+        this.currentSort = sort
+      }
+      let parameter = {
+        condition: [{
+          value: this.currentFilter.value + '%',
+          column: this.currentFilter.column,
+          clause: 'like'
+        }, {
+          value: this.user.subAccount.id,
+          column: 'merchant_id',
+          clause: '='
+        }],
+        account_id: this.user.userID,
+        sort: this.currentSort,
+        limit: this.limit,
+        offset: this.offset,
+        inventory_type: 'all',
+        product_type: 'inventory'
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('products/retrieve', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data.length > 0){
+          this.data = response.data
+        }
+      })
+    },
+
     sortArrayTitle(sort){
       this.activeSortTitle = sort
       if(sort === 'desc'){
@@ -176,9 +202,6 @@ export default {
           }
         })
       }
-    },
-    retrieve(sort){
-      console.log('retrieve')
     },
     removeItem() {
       $('#connectionError').modal('show')

@@ -3,7 +3,7 @@ let APP_EMAIL = 'support@siml.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-home', path: 'dashboard', flag: false, subMenu: null},
-    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Menu', icon: 'fa fa-bars', path: 'menus', flag: false, subMenu: null},
+    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Menu', icon: 'fa fa-bars', path: 'products', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Bookings', icon: 'fa fa-bookmark', path: 'bookings', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Accounts', icon: 'fa fa-users', path: 'accounts', flag: false, subMenu: null}
   ],
@@ -39,5 +39,11 @@ export default {
     {title: 'Work Experiences', type: 'work-experience', allowed: []},
     {title: 'Identifications', type: 'identifications', allowed: []},
     {title: 'Guarantor', type: 'guarantor', allowed: []}
-  ]
+  ],
+  profileMenu: [
+    {title: 'Profile', route: 'profile', icon: 'fa fa-user'}
+  ],
+  ecommerce: {
+    productTitleLimit: 100
+  }
 }
