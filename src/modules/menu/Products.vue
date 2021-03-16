@@ -10,7 +10,7 @@
       :grid="['list']">
     </filter-product>
 
-    <table v-if="data" class="table table-bordered table-responsive">
+    <table v-if="data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
           <td>Title
@@ -25,13 +25,13 @@
       <tbody v-if="data">
         <tr v-for="(item, index) in data" :key="index">
           <td>
-            {{item.name}}
+            {{item.title}}
           </td>
           <td>{{item.type}}</td>
           <td>{{item.status}}</td>
           <td>
-            <button class="btn btn-primary" @click="update()">EDIT</button>
-            <button class="btn btn-danger" @click="removeItem()">DELETE</button>
+            <button class="btn btn-primary" @click="update(item)">EDIT</button>
+            <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
           </td>
         </tr>
       </tbody>
@@ -66,10 +66,10 @@
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
     ref="confirms"
-    @onConfirm="remove(id)"
+    @onConfirm="remove()"
     >
     </confirmation>
-    <empty v-if="data === null" :title="title" :action="guide"></empty>
+    <empty v-if="data.length === 0" :title="title" :action="guide"></empty>
   </div>
 </template>
 <style>
@@ -89,23 +89,11 @@ import axios from 'axios'
 import COMMON from 'src/common.js'
 export default {
   mounted(){
-    this.filterBy('all')
+    this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
   },
   data(){
     return {
-      data: [{
-        name: 'Product 1',
-        type: 'Regular',
-        status: 'PENDING'
-      }, {
-        name: 'Product 2',
-        type: 'Regular',
-        status: 'PENDING'
-      }, {
-        name: 'Product 3',
-        type: 'Regular',
-        status: 'PUBLISHED'
-      }],
+      data: [],
       user: AUTH.user,
       config: CONFIG,
       productId: null,
@@ -119,12 +107,12 @@ export default {
         title: 'Products',
         sorting: [{
           title: 'Name ascending',
-          payload: 'name',
+          payload: 'title',
           payload_value: 'asc',
           type: 'text'
         }, {
           title: 'Name descending',
-          payload: 'name',
+          payload: 'title',
           payload_value: 'desc',
           type: 'text'
         }, {
@@ -148,7 +136,12 @@ export default {
           payload_value: 'desc',
           type: 'text'
         }]
-      }]
+      }],
+      currentFilter: null,
+      currentSort: null,
+      offset: 0,
+      limit: 6,
+      id: null
     }
   },
   components: {
@@ -164,9 +157,42 @@ export default {
     }
   },
   methods: {
-    update() {
-      $('#updateProduct').modal('show')
+    update(item) {
+      ROUTER.push('/product/edit/' + item.code)
     },
+    retrieve(sort = null, filter = null){
+      console.log(this.user)
+      if(filter !== null){
+        this.currentFilter = filter
+      }
+      if(sort !== null){
+        this.currentSort = sort
+      }
+      let parameter = {
+        condition: [{
+          value: this.currentFilter.value + '%',
+          column: this.currentFilter.column,
+          clause: 'like'
+        }, {
+          value: this.user.subAccount.merchant.id,
+          column: 'merchant_id',
+          clause: '='
+        }],
+        account_id: this.user.userID,
+        sort: this.currentSort,
+        limit: this.limit,
+        offset: this.offset,
+        inventory_type: 'all'
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('products/retrieve', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data.length > 0){
+          this.data = response.data
+        }
+      })
+    },
+
     sortArrayTitle(sort){
       this.activeSortTitle = sort
       if(sort === 'desc'){
@@ -206,10 +232,20 @@ export default {
         })
       }
     },
-    retrieve(sort){
-      console.log('retrieve')
+    remove(){
+      let parameter = {
+        id: this.id
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('products/delete', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data !== null){
+          this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
+        }
+      })
     },
-    removeItem() {
+    removeItem(item) {
+      this.id = item.id
       $('#connectionError').modal('show')
     }
   }

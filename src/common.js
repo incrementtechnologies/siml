@@ -45,5 +45,9 @@ export default {
     {title: 'Work Experiences', type: 'work-experience', allowed: []},
     {title: 'Identifications', type: 'identifications', allowed: []},
     {title: 'Guarantor', type: 'guarantor', allowed: []}
-  ]
+  ],
+  ecommerce: {
+    productTitleLimit: 100,
+    inventoryType: 'all'
+  }
 }
