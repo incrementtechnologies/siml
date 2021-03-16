@@ -20,6 +20,12 @@ export default {
   USER_TYPE: [{
     title: 'USER'
   }],
+  profileMenu: [
+    {
+      title: 'My Profile',
+      icon: 'fa fa-cog',
+      route: '/profile'
+    }],
   USER_TYPE_SETTING: false,
   plan: false,
   broadcastingFlag: true,
@@ -40,10 +46,8 @@ export default {
     {title: 'Identifications', type: 'identifications', allowed: []},
     {title: 'Guarantor', type: 'guarantor', allowed: []}
   ],
-  profileMenu: [
-    {title: 'Profile', route: 'profile', icon: 'fa fa-user'}
-  ],
   ecommerce: {
-    productTitleLimit: 100
+    productTitleLimit: 100,
+    inventoryType: 'all'
   }
 }

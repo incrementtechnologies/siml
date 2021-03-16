@@ -25,13 +25,13 @@
       <tbody v-if="data">
         <tr v-for="(item, index) in data" :key="index">
           <td>
-            {{item.name}}
+            {{item.title}}
           </td>
           <td>{{item.type}}</td>
           <td>{{item.status}}</td>
           <td>
-            <button class="btn btn-primary" @click="update()">EDIT</button>
-            <button class="btn btn-danger" @click="removeItem()">DELETE</button>
+            <button class="btn btn-primary" @click="update(item)">EDIT</button>
+            <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
           </td>
         </tr>
       </tbody>
@@ -66,7 +66,7 @@
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
     ref="confirms"
-    @onConfirm="remove(id)"
+    @onConfirm="remove()"
     >
     </confirmation>
     <empty v-if="data.length === 0" :title="title" :action="guide"></empty>
@@ -107,12 +107,12 @@ export default {
         title: 'Products',
         sorting: [{
           title: 'Name ascending',
-          payload: 'name',
+          payload: 'title',
           payload_value: 'asc',
           type: 'text'
         }, {
           title: 'Name descending',
-          payload: 'name',
+          payload: 'title',
           payload_value: 'desc',
           type: 'text'
         }, {
@@ -140,7 +140,8 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 6
+      limit: 6,
+      id: null
     }
   },
   components: {
@@ -156,6 +157,9 @@ export default {
     }
   },
   methods: {
+    update(item) {
+      ROUTER.push('/product/edit/' + item.code)
+    },
     retrieve(sort = null, filter = null){
       console.log(this.user)
       if(filter !== null){
@@ -170,7 +174,7 @@ export default {
           column: this.currentFilter.column,
           clause: 'like'
         }, {
-          value: this.user.subAccount.id,
+          value: this.user.subAccount.merchant.id,
           column: 'merchant_id',
           clause: '='
         }],
@@ -178,8 +182,7 @@ export default {
         sort: this.currentSort,
         limit: this.limit,
         offset: this.offset,
-        inventory_type: 'all',
-        product_type: 'inventory'
+        inventory_type: 'all'
       }
       $('#loading').css({'display': 'block'})
       this.APIRequest('products/retrieve', parameter).then(response => {
@@ -229,7 +232,20 @@ export default {
         })
       }
     },
-    removeItem() {
+    remove(){
+      let parameter = {
+        id: this.id
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('products/delete', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data !== null){
+          this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
+        }
+      })
+    },
+    removeItem(item) {
+      this.id = item.id
       $('#connectionError').modal('show')
     }
   }
