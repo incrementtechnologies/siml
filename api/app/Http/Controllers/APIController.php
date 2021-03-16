@@ -70,7 +70,7 @@ class APIController extends Controller
   protected $singleImageFileUpload = array();
   protected $validation = array();
 
-  protected $installment = true;
+  protected $installment = false;
 
   public function checkAuthenticatedUser($flag = false)
   {
