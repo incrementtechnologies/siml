@@ -47,7 +47,19 @@ export default {
     {title: 'Guarantor', type: 'guarantor', allowed: []}
   ],
   ecommerce: {
-    productTitleLimit: 100,
-    inventoryType: 'all'
+    inventoryType: 'all',
+    editProductMenu: [{
+      title: 'Inventory',
+      flag: true
+    }, {
+      title: 'Bundled Products',
+      flag: false
+    },
+    {
+      title: 'Other Details',
+      flag: false
+    }],
+    productUnits: ['Litres (L)', 'Millilitres (ml)', 'Kilograms (kg)', 'Grams (g)'],
+    productTitleLimit: 100
   }
 }
