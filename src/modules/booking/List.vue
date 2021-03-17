@@ -27,7 +27,7 @@
           <td>{{item.guest}}</td>
           <td>
             <button class="btn btn-primary" @click="showModal()">EDIT</button>
-            <button class="btn btn-danger" @click="removeItem()">DELETE</button>
+            <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
           </td>
         </tr>
       </tbody>
@@ -70,27 +70,30 @@
       </div>
     </div>
     </div>
-    <empty v-if="data === null" :title="title" :action="guide"></empty>
+    <empty v-if="data === null" :title="'Empty Bookings!'" :action="'No activity at the moment.'"></empty>
     <confirmation
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
     ref="confirms"
-    @onConfirm="remove(id)"
+    @onConfirm="remove()"
     >
     </confirmation>
   </div>
 </template>
 <script>
+import AUTH from 'src/services/auth'
 export default {
+  mounted() {
+    this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+  },
   data() {
     return {
+      user: AUTH.user,
       activeSortTitle: null,
       reservee: null,
       date: null,
       status: null,
       guest: null,
-      title: 'Empty Bookings!',
-      guide: 'No activity at the moment.',
       data: [{
         reservee: 'Lalaine Cabelin Garrido',
         date: '02-05-21',
@@ -107,37 +110,22 @@ export default {
       category: [{
         title: 'Bookings',
         sorting: [{
-          title: 'Reservee ascending',
-          payload: 'reservee',
-          payload_value: 'asc',
-          type: 'text'
-        }, {
-          title: 'Reservee descending',
-          payload: 'reservee',
-          payload_value: 'desc',
-          type: 'text'
-        }, {
           title: 'Date of reservation ascending',
-          payload: 'date',
+          payload: 'datetime',
           payload_value: 'asc',
           type: 'text'
         }, {
           title: 'Date of reservation descending',
-          payload: 'date',
-          payload_value: 'desc',
-          type: 'text'
-        }, {
-          title: 'No. of Guest ascending',
-          payload: 'guest',
-          payload_value: 'asc',
-          type: 'text'
-        }, {
-          title: 'No. of Guest descending',
-          payload: 'guest',
+          payload: 'datetime',
           payload_value: 'desc',
           type: 'text'
         }]
-      }]
+      }],
+      currentFilter: null,
+      currentSort: null,
+      offset: 0,
+      limit: 6,
+      id: null
     }
   },
   components: {
@@ -146,8 +134,48 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
-    retrieve(sort){
-      console.log('retrieve')
+    retrieve(sort = null, filter = null){
+      if(filter !== null){
+        this.currentFilter = filter
+      }
+      if(sort !== null){
+        this.currentSort = sort
+      }
+      let parameter = {
+        condition: [{
+          value: this.currentFilter.value + '%',
+          column: this.currentFilter.column,
+          clause: 'like'
+        }, {
+          value: this.user.subAccount.merchant.id,
+          column: 'merchant_id',
+          clause: '='
+        }],
+        account_id: this.user.userID,
+        sort: this.currentSort,
+        limit: this.limit,
+        offset: this.offset,
+        inventory_type: 'all'
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('reservations/retrieve', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data.length > 0){
+          this.data = response.data
+        }
+      })
+    },
+    remove(){
+      let parameter = {
+        id: this.id
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('reservations/delete', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data !== null){
+          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+        }
+      })
     },
     showModal() {
       $('#editBooking').modal('show')
@@ -155,7 +183,8 @@ export default {
     hideModal() {
       $('#editBooking').modal('hide')
     },
-    removeItem() {
+    removeItem(item) {
+      this.id = item.id
       $('#connectionError').modal('show')
     }
   }
