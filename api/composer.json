@@ -65,7 +65,7 @@
             "Increment\\Imarket\\Reservation\\": "packages/increment/imarket/reservation/src/",
             "Increment\\Imarket\\Product\\":"packages/increment/imarket/product/src/",
             "Increment\\Imarket\\Bundled\\":"packages/increment/imarket/bundled/src/",
-            "Increment\\Common\\Bundled\\":"packages/increment/common/mycircle/src/"
+            "Increment\\Common\\MyCircle\\":"packages/increment/common/mycircle/src/"
         }
     },
     "autoload-dev": {
