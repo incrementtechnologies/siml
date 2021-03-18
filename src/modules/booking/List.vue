@@ -6,7 +6,7 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       :grid="['list']">
     </filter-product>
-    <table v-if="data" class="table table-bordered table-responsive">
+    <table v-if="data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
           <td>Reservee
@@ -15,18 +15,20 @@
           </td>
           <td>Date of Reservation</td>
           <td>No. of Guest</td>
+          <td>Status</td>
           <td>Action</td>
         </tr>
       </thead>
       <tbody v-if="data">
         <tr v-for="(item, index) in data" :key="index">
-          <td>
-            {{item.reservee}}
+          <td v-if="item.reservee">
+            {{item.reservee[0].username}}
           </td>
-          <td>{{item.date}}</td>
+          <td>{{item.datetime}}</td>
           <td>{{item.guest}}</td>
+          <td>{{item.status}}</td>
           <td>
-            <button class="btn btn-primary" @click="showModal()">EDIT</button>
+            <button class="btn btn-primary" @click="showModal(item)">EDIT</button>
             <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
           </td>
         </tr>
@@ -44,33 +46,34 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="name">Reservee: <span>*</span></label>
-            <input type="text" placeholder="Reservee" v-model="reservee" class="form-control-custom form-control" required>
+            <input type="text" placeholder="Reservee" v-model="reservee" class="form-control-custom form-control" required disabled>
           </div>
           <div class="form-group">
             <label for="name">Date of Reservation: <span>*</span></label>
-            <input type="text" maxlength="150" placeholder="Date of Reservation" v-model="date" class="form-control-custom form-control" required>
+            <input type="datetime" maxlength="150" placeholder="Date of Reservation" v-model="datetime" class="form-control-custom form-control" required disabled>
           </div>
           <div class="form-group">
             <label for="name">No. of Guest: <span>*</span></label>
-            <input type="text" maxlength="150" placeholder="No. of Guest" v-model="guest" class="form-control-custom form-control" required>
+            <input type="text" maxlength="150" placeholder="No. of Guest" v-model="guest" class="form-control-custom form-control" required disabled>
           </div>
           <div class="form-group">
             <label for="name">Status: <span>*</span></label>
             <br>
             <select class="form-group form-control-custom form-control" v-model="status">
               <option value="pending">Pending</option>
-              <option value="published">Published</option>
+              <option value="closed">Closed</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger" @click="hideModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" @click="update()">Save</button>
         </div>
       </div>
     </div>
     </div>
-    <empty v-if="data === null" :title="'Empty Bookings!'" :action="'No activity at the moment.'"></empty>
+    <empty v-if="data.length === 0" :title="'Empty Bookings!'" :action="'No activity at the moment.'"></empty>
     <confirmation
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
@@ -88,25 +91,14 @@ export default {
   },
   data() {
     return {
+      editId: null,
       user: AUTH.user,
       activeSortTitle: null,
       reservee: null,
-      date: null,
+      datetime: null,
       status: null,
       guest: null,
-      data: [{
-        reservee: 'Lalaine Cabelin Garrido',
-        date: '02-05-21',
-        guest: 20
-      }, {
-        reservee: 'Lealyn Eulin',
-        date: '03-10-21',
-        guest: 20
-      }, {
-        reservee: 'Cherry Mae Herrera',
-        date: '01-30-21',
-        guest: 20
-      }],
+      data: [],
       category: [{
         title: 'Bookings',
         sorting: [{
@@ -165,6 +157,20 @@ export default {
         }
       })
     },
+    update(){
+      let parameter = {
+        id: this.editId,
+        status: this.status
+      }
+      $('#loading').css({'display': 'block'})
+      this.APIRequest('reservations/update', parameter).then(response => {
+        $('#loading').css({'display': 'none'})
+        if(response.data !== null){
+          $('#editBooking').modal('hide')
+          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+        }
+      })
+    },
     remove(){
       let parameter = {
         id: this.id
@@ -177,7 +183,12 @@ export default {
         }
       })
     },
-    showModal() {
+    showModal(item) {
+      this.reservee = item.reservee[0].username
+      this.datetime = item.datetime
+      this.status = item.status
+      this.editId = item.id
+      console.log(item)
       $('#editBooking').modal('show')
     },
     hideModal() {
