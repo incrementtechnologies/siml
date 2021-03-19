@@ -31,20 +31,9 @@ export default {
   broadcastingFlag: true,
   header: ['status', 'notification'], // 'messenger', '',
   settingsMenu: [
-    {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address', 'sex', 'birth_date']},
-    // {title: 'Educations', type: 'educations', allowed: []},
-    // {title: 'Work Experience', type: 'work-experience', allowed: []},
-    // {title: 'Idenfication Cards', type: 'identifications', allowed: []},
-    // {title: 'Guarantor', type: 'guarantor', allowed: []},
+    {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address']},
     {title: 'Account', type: 'account', allowed: []},
-    // {title: 'Payment Accounts', type: 'payment_method', allowed: []},
-    // {title: 'Billing Information', type: 'billing_information', allowed: []},
-    {title: 'Business Setting', type: 'merchant', allowed: ['prefix']},
-    {title: 'Notifications', type: 'notification', allowed: []},
-    {title: 'Educational Background', type: 'educations', allowed: []},
-    {title: 'Work Experiences', type: 'work-experience', allowed: []},
-    {title: 'Identifications', type: 'identifications', allowed: []},
-    {title: 'Guarantor', type: 'guarantor', allowed: []}
+    {title: 'Business Setting', type: 'merchant', allowed: ['prefix', 'website', 'address', 'schedule']}
   ],
   ecommerce: {
     inventoryType: 'all',
