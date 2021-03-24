@@ -105,7 +105,7 @@ class EmailController extends APIController
     }
 
     public function invitation($user, $data){
-        return Mail::to($data['to_email'])->send(new Referral($user, $data['content'], $data['to_email'], $this->response['timezone']));
+        return Mail::to($data['to_email'])->send(new Referral($user, $data['content'], $data['to_email'], $data['details'], $this->response['timezone']));
     }
 
     public function receipt($accountId, $data){
