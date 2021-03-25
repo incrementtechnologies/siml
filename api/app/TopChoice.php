@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\APIModel;
+
 class TopChoice extends APIModel
 {
     //
