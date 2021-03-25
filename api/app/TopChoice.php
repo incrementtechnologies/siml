@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class TopChoices extends Model
+use App\APIModel;
+class TopChoice extends APIModel
 {
     //
     protected $table = 'top_choices';

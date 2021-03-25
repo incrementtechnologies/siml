@@ -290,7 +290,7 @@ Route::post($route.'search', $controller."search");
 
 //Top Choices Controller
 $route = env('PACKAGE_ROUTE', '').'/top_choices/';
-$controller = 'TopChoicesController@';
+$controller = 'TopChoiceController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");

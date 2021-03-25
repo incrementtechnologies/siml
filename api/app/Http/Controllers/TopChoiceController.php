@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\TopChoice;
 
-class TopChoicesController extends APIController
+class TopChoiceController extends APIController
 {
     function __construct(){
-        
+        $this->model = new TopChoice();
     }
 }
