@@ -287,6 +287,13 @@ $route = env('PACKAGE_ROUTE', '').'/google_places/';
 $controller = 'GooglePlaceController@';
 Route::post($route.'search', $controller."search");
 
+//Synqt Controller
+$route = env('PACKAGE_ROUTE', '').'/synqts/';
+$controller = 'SynqtController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
 
 //Top Choices Controller
 $route = env('PACKAGE_ROUTE', '').'/top_choices/';

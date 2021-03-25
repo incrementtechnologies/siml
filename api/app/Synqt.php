@@ -1,10 +1,11 @@
 <?php
 
-namespace Increment\Marketplace\Models;
+namespace App;
+
 use Illuminate\Database\Eloquent\Model;
-use App\APIModel;
+
 class Synqt extends APIModel
 {
-    protected $table = 'synqt';
+    protected $table = 'synqts';
     protected $fillable = ['code', 'account_id', 'title', 'location_id', 'date', 'details', 'status'];
 }
