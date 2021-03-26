@@ -21,8 +21,8 @@
       </thead>
       <tbody v-if="data">
         <tr v-for="(item, index) in data" :key="index">
-          <td v-if="item.reservee">
-            {{item.reservee[0].username}}
+          <td>
+            <!-- {{item.reservee[0].username}} -->
           </td>
           <td>{{item.datetime}}</td>
           <td>{{item.guest}}</td>
@@ -135,19 +135,12 @@ export default {
       }
       let parameter = {
         condition: [{
-          value: this.currentFilter.value + '%',
-          column: this.currentFilter.column,
-          clause: 'like'
-        }, {
           value: this.user.subAccount.merchant.id,
           column: 'merchant_id',
           clause: '='
         }],
-        account_id: this.user.userID,
-        sort: this.currentSort,
         limit: this.limit,
-        offset: this.offset,
-        inventory_type: 'all'
+        offset: this.offset
       }
       $('#loading').css({'display': 'block'})
       this.APIRequest('reservations/retrieve', parameter).then(response => {
