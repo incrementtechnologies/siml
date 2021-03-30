@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Synqt;
 
 class SynqtController extends APIController
@@ -32,7 +33,7 @@ class SynqtController extends APIController
 
     public function retrieveByParams($column, $value){
         $result = Synqt::where($column, '=', $value)->where('deleted_at', '=', null)->get();
-
+        $result[0]['date_at_human'] = Carbon::createFromFormat('Y-m-d', $result[0]['date'])->copy()->tz($this->response['timezone'])->format('F j, Y');
         return sizeof($result) > 0 ? $result : [];
     }
 
