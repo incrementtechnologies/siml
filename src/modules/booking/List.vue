@@ -22,7 +22,7 @@
       <tbody v-if="data">
         <tr v-for="(item, index) in data" :key="index">
           <td>
-            <!-- {{item.reservee[0].username}} -->
+            {{item.reservee}}
           </td>
           <td>{{item.datetime}}</td>
           <td>{{item.guest}}</td>
@@ -61,7 +61,7 @@
             <br>
             <select class="form-group form-control-custom form-control" v-model="status">
               <option value="pending">Pending</option>
-              <option value="closed">Closed</option>
+              <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
             </select>
           </div>
@@ -116,7 +116,7 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 6,
+      limit: 100,
       id: null
     }
   },
