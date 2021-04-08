@@ -18,17 +18,24 @@ class TopChoiceController extends APIController
     public function retrieve(Request $request){
         $data = $request->all();
         $con = $data['condition'];
-        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->offset($data['offset'])->limit($data['limit'])->get();
+        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->select('synqt_id', 'payload_value', 'account_id')->offset($data['offset'])->limit($data['limit'])->get();
+        $synqts = null;
+        $result = $result->groupBy('payload_value');
+        $i = 0;
+        $j = 0;
         if(sizeof($result) > 0){
-            $i = 0;
-            foreach ($result as $key) {
-                $result[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $result[$i]['synqt_id']);
-                $result[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $result[$i]['payload_value']);
-
+            foreach($result as $key => $element) {
+                $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->get();
+                $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
+                $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
+                foreach($synqts[$i]['members'] as $el) {
+                    $el['name'] = $this->retrieveNameOnly($el->account_id);
+                    $j++;
+                }
                 $i++;
             }
-            $this->response['data'] = $result;
         }
+        $this->response['data'] = $synqts;
         return $this->response();
     }
 }
