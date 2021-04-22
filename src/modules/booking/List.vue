@@ -24,7 +24,7 @@
           <td>
             {{item.reservee}}
           </td>
-          <td>{{item.datetime}}</td>
+          <td>{{item.date_time_at_human}}</td>
           <td>{{item.guests}}</td>
           <td>{{item.status}}</td>
           <td>
