@@ -30,6 +30,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
+                    $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
                     $j++;
                 }
                 $i++;
