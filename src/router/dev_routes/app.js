@@ -1,6 +1,13 @@
 
 export default{
   routes: [{
+    path: '/dashboard',
+    name: 'dashboard',
+    component: resolve => require(['modules/dashboard/index.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
     path: '/signup',
     name: 'signup',
     component: resolve => require(['components/increment/basic/Signup.vue'], resolve),
@@ -80,7 +87,7 @@ export default{
   }, {
     path: '/product/edit/:code',
     name: 'product',
-    component: resolve => require(['components/increment/imarketvue/product/EditProduct.vue'], resolve),
+    component: resolve => require(['components/increment/imarketvue/product/EditProductSimple.vue'], resolve),
     meta: {
       tokenRequired: true
     }
