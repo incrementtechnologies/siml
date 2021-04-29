@@ -116,7 +116,7 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 6,
+      limit: 50,
       id: null
     }
   },
