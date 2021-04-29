@@ -5,7 +5,7 @@ export default{
     name: 'dashboard',
     component: resolve => require(['modules/dashboard/index.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }, {
     path: '/signup',

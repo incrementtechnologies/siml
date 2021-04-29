@@ -116,7 +116,7 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 100,
+      limit: 6,
       id: null
     }
   },
@@ -135,6 +135,10 @@ export default {
       }
       let parameter = {
         condition: [{
+          value: this.user.subAccount.merchant.id,
+          column: 'merchant_id',
+          clause: '='
+        }, {
           value: this.user.subAccount.merchant.id,
           column: 'merchant_id',
           clause: '='
