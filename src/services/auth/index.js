@@ -128,7 +128,7 @@ export default {
           }
         })
         this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
+        // this.retrieveMessages(userInfo.id, userInfo.account_type)
         if(callback){
           callback(userInfo)
         }
@@ -172,7 +172,7 @@ export default {
           }
         })
         this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
+        // this.retrieveMessages(userInfo.id, userInfo.account_type)
         this.getGoogleCode()
       }, (response) => {
         this.setToken(null)
@@ -326,7 +326,7 @@ export default {
     let notifSetting = data[0].notification_settings
     let subAccount = data[0].sub_account
     this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
-    ROUTER.push('/accounts')
+    ROUTER.push('/dashboard')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
