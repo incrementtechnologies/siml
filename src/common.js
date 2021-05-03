@@ -10,13 +10,13 @@ export default {
   menuOff: [
     {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null}
   ],
-  APP_NAME: 'SIML',
-  APP_NAME_HTML: 'SIML',
+  APP_NAME: 'SynQT',
+  APP_NAME_HTML: 'SynQT',
   APP_EMAIL: APP_EMAIL,
   APP_SITE: 'https://wearesiml.com',
-  COMPANY: 'SIML',
+  COMPANY: 'SynQT',
   COMPANY_URL: 'http://wearesiml.ltd',
-  COPYRIGHT: 'SIML ' + new Date().getFullYear(),
+  COPYRIGHT: 'SynQT ' + new Date().getFullYear(),
   USER_TYPE: [{
     title: 'USER'
   }],
