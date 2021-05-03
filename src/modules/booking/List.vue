@@ -135,11 +135,11 @@ export default {
       }
       let parameter = {
         condition: [{
-          value: this.user.subAccount.merchant.id,
+          value: this.user.merchant.id,
           column: 'merchant_id',
           clause: '='
         }, {
-          value: this.user.subAccount.merchant.id,
+          value: this.user.merchant.id,
           column: 'merchant_id',
           clause: '='
         }],
