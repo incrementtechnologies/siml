@@ -109,10 +109,11 @@ class AuthenticateController extends Controller
         return response()->json(['token_absent'], $e->getStatusCode());
       }
 
-      // the token is valid and we have found the user via the sub claim
-      // if($user){
-      //   $user['scope_location'] = app('Increment\Imarket\Location\Http\LocationController')->getColumnValueByParams('account_id', $user['id'], 'code');
-      // }
+      if($user){
+        $account = app('App\Http\Controllers\APIController')->retrieveAccountDetailsOnRequests($user->id);
+        $user['profile'] = $account ? $account['profile'] : null;
+        $user['information'] = $account ? $account['information'] : null;
+      }
       return response()->json($user);
   }
   public function customValidate($text){
