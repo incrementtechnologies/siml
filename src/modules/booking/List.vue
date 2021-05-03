@@ -24,7 +24,7 @@
           <td>
             {{item.reservee}}
           </td>
-          <td>{{item.datetime}}</td>
+          <td>{{item.date_time_at_human}}</td>
           <td>{{item.guests}}</td>
           <td>{{item.status}}</td>
           <td>
@@ -116,7 +116,7 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 100,
+      limit: 50,
       id: null
     }
   },
@@ -135,6 +135,10 @@ export default {
       }
       let parameter = {
         condition: [{
+          value: this.user.subAccount.merchant.id,
+          column: 'merchant_id',
+          clause: '='
+        }, {
           value: this.user.subAccount.merchant.id,
           column: 'merchant_id',
           clause: '='

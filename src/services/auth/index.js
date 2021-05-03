@@ -63,7 +63,8 @@ export default {
   },
   echo: null,
   currentPath: false,
-  attachmentValue: null,setUser(user, notifSetting, subAccount){
+  attachmentValue: null,
+  setUser(user, notifSetting, subAccount){
     $('#loading').css({display: 'none'})
     let vue = new Vue()
     if(user === null){

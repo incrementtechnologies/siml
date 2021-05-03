@@ -18,7 +18,7 @@ class TopChoiceController extends APIController
     public function retrieve(Request $request){
         $data = $request->all();
         $con = $data['condition'];
-        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->select('synqt_id', 'payload_value', 'account_id')->offset($data['offset'])->limit($data['limit'])->get();
+        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->where('deleted_at', '=', null)->select('synqt_id', 'payload_value', 'account_id')->offset($data['offset'])->limit($data['limit'])->get();
         $synqts = null;
         $result = $result->groupBy('payload_value');
         $i = 0;
@@ -30,6 +30,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
+                    $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
                     $j++;
                 }
                 $i++;
