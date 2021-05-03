@@ -25,7 +25,7 @@
             {{item.reservee}}
           </td>
           <td>{{item.date_time_at_human}}</td>
-          <td>{{item.guests}}</td>
+          <td>{{item.members ? item.members.length : 0}}</td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" @click="showModal(item)">EDIT</button>

@@ -174,7 +174,7 @@ export default {
           column: this.currentFilter.column,
           clause: 'like'
         }, {
-          value: this.user.subAccount.merchant.id,
+          value: this.user.merchant.id,
           column: 'merchant_id',
           clause: '='
         }],
