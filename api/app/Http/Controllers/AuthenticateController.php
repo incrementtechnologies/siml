@@ -111,8 +111,10 @@ class AuthenticateController extends Controller
 
       if($user){
         $account = app('App\Http\Controllers\APIController')->retrieveAccountDetailsOnRequests($user->id);
+        $account = app('Increment\Imarket\Merchant\Http')->getByParams('account_id', $user->id);
         $user['profile'] = $account ? $account['profile'] : null;
         $user['information'] = $account ? $account['information'] : null;
+        $user['merchant'] = $account ? $account['merchant'] : null;
       }
       return response()->json($user);
   }

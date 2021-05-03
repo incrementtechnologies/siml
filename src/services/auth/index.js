@@ -77,6 +77,7 @@ export default {
       this.user.information = null
       this.user.subAccount = null
       this.user.code = null
+      this.user.merchant = null
     }else{
       this.user.userID = user.id
       this.user.username = user.username
@@ -87,6 +88,7 @@ export default {
       this.user.information = user.information
       this.user.subAccount = null
       this.user.code = user.code
+      this.user.merchant = user.merchant
       console.log('hi', user)
       localStorage.setItem('account_id', this.user.userID)
       setTimeout(() => {
