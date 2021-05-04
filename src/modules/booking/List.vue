@@ -181,11 +181,11 @@ export default {
       })
     },
     showModal(item) {
-      this.reservee = item.reservee[0].username
+      this.reservee = item.reservee
       this.datetime = item.datetime
       this.status = item.status
+      this.guest = item.members ? item.members.length : 0
       this.editId = item.id
-      console.log(item)
       $('#editBooking').modal('show')
     },
     hideModal() {
