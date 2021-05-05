@@ -148,7 +148,7 @@ export default {
     'filter-product': require('components/increment/imarketvue/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue'),
-    'create': require('components/increment/imarketvue/product/Create.vue')
+    'create': require('modules/menu/CreateProduct.vue')
   },
   props: ['type'],
   watch: {
