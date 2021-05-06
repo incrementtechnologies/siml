@@ -86,10 +86,7 @@ export default {
       this.user.profile = user.profile
       this.user.information = user.information
       this.user.code = user.code
-      this.user.subAccount = {
-        merchant: user.merchant
-      }
-      console.log('hi', user)
+      this.user.merchant = user.merchant
       localStorage.setItem('account_id', this.user.userID)
       setTimeout(() => {
         this.tokenData.verifyingToken = false

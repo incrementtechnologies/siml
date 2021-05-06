@@ -36,6 +36,7 @@
         </tr>
       </tbody>
     </table>
+    <button v-if="data !== null && data.length === limit" class="btn btn-primary pull-right" style="margin-bottom: 25px;" @click="retrieve(currentSort, currentFilter, true)">See More</button>
     <div class="modal fade" id="updateProduct" tabindex="-1" role="dialog" aria-labelledby="updateProduct" aria-hidden="true">
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -89,7 +90,7 @@ import axios from 'axios'
 import COMMON from 'src/common.js'
 export default {
   mounted(){
-    this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
+    this.retrieve({'title': 'asc'}, {column: 'title', value: ''}, false)
   },
   data(){
     return {
@@ -148,7 +149,7 @@ export default {
     'filter-product': require('components/increment/imarketvue/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue'),
-    'create': require('components/increment/imarketvue/product/Create.vue')
+    'create': require('modules/menu/CreateProduct.vue')
   },
   props: ['type'],
   watch: {
@@ -160,8 +161,10 @@ export default {
     update(item) {
       ROUTER.push('/product/edit/' + item.code)
     },
-    retrieve(sort = null, filter = null){
-      console.log(this.user)
+    retrieve(sort = null, filter = null, flag = null){
+      if(flag === true) {
+        this.offset += this.limit
+      }
       if(filter !== null){
         this.currentFilter = filter
       }
@@ -188,7 +191,13 @@ export default {
       this.APIRequest('products/retrieve', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data.length > 0){
-          this.data = response.data
+          if(flag === true) {
+            response.data.forEach(element => {
+              this.data.push(element)
+            })
+          } else {
+            this.data = response.data
+          }
         }
       })
     },
