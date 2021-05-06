@@ -75,9 +75,8 @@ export default {
       this.user.status = null
       this.user.profile = null
       this.user.information = null
-      this.user.subAccount = null
       this.user.code = null
-      this.user.merchant = null
+      this.user.subAccount = null
     }else{
       this.user.userID = user.id
       this.user.username = user.username
@@ -86,7 +85,6 @@ export default {
       this.user.status = user.status
       this.user.profile = user.profile
       this.user.information = user.information
-      this.user.subAccount = null
       this.user.code = user.code
       this.user.merchant = user.merchant
       localStorage.setItem('account_id', this.user.userID)
