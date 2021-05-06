@@ -34,6 +34,7 @@
         </tr>
       </tbody>
     </table>
+    <button v-if="data !== null && data.length === limit" class="btn btn-primary pull-right" style="margin-bottom: 25px;" @click="retrieve(currentSort, currentFilter, true)">See More</button>
    <div class="modal fade" id="editBooking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
@@ -87,7 +88,7 @@
 import AUTH from 'src/services/auth'
 export default {
   mounted() {
-    this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+    this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
   },
   data() {
     return {
@@ -116,7 +117,7 @@ export default {
       currentFilter: null,
       currentSort: null,
       offset: 0,
-      limit: 50,
+      limit: 6,
       id: null
     }
   },
@@ -126,7 +127,10 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
-    retrieve(sort = null, filter = null){
+    retrieve(sort = null, filter = null, flag = null){
+      if(flag === true) {
+        this.offset += this.limit
+      }
       if(filter !== null){
         this.currentFilter = filter
       }
@@ -150,7 +154,13 @@ export default {
       this.APIRequest('reservations/retrieve', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data.length > 0){
-          this.data = response.data
+          if(flag === true) {
+            response.data.forEach(element => {
+              this.data.push(element)
+            })
+          } else {
+            this.data = response.data
+          }
         }
       })
     },
