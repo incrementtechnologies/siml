@@ -8,7 +8,7 @@ let beforeEnter = (to, from, next) => {
   console.log('token', token)
   if(token !== null && userID > 0){
     if(to.path === '/' || to.meta.tokenRequired === false){
-      next({path: '/accounts'})
+      next({path: '/'})
     }else{
       next()
     }

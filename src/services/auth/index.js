@@ -91,7 +91,7 @@ export default {
       setTimeout(() => {
         this.tokenData.verifyingToken = false
         this.tokenData.loading = false
-        this.updateData()
+        // this.updateData()
       }, 100)
     }
   },
@@ -121,6 +121,7 @@ export default {
       this.setToken(this.tokenData.token)
       vue.APIRequest('authenticate/user', {}, (userInfo) => {
         this.setUser(userInfo, null, null)
+        this.updateData()
       })
     }, (response, status) => {
       if(errorCallback){
@@ -277,7 +278,7 @@ export default {
   },
   updateData(){
     console.log('dashboard')
-    // ROUTER.push('/dashboard')
+    ROUTER.push('/dashboard')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
