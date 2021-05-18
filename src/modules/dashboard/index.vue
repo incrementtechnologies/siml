@@ -18,7 +18,7 @@
           <td>No. of Guest</td>
         </tr>
       </thead>
-      <tbody v-if="data">
+      <tbody v-if="data.length > 0">
         <tr v-for="(item, index) in data" :key="index">
           <td>
             {{item.reservee}}
