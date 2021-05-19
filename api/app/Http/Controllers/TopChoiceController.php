@@ -10,6 +10,7 @@ class TopChoiceController extends APIController
 {
     public $synqtClass = 'App\Http\Controllers\SynqtController';
     public $merchantClass = 'Increment\Imarket\Merchant\Http\MerchantController';
+    public $ratingClass = 'Increment\Common\Rating\Http\RatingController';
 
     function __construct(){
         $this->model = new TopChoice();
@@ -28,6 +29,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
+                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByParams('payload_value_1', $key);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
