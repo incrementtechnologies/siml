@@ -64,30 +64,36 @@ export default {
   echo: null,
   currentPath: false,
   attachmentValue: null,
-  setUser(userID, username, email, type, status, profile, notifSetting, subAccount, code){
-    if(userID === null){
-      username = null
-      email = null
-      type = null
-      status = null
-      profile = null
-      notifSetting = null
-      subAccount = null
-      code = null
+  setUser(user, notifSetting, subAccount){
+    $('#loading').css({display: 'none'})
+    let vue = new Vue()
+    if(user === null){
+      this.user.userID = 0
+      this.user.username = null
+      this.user.email = null
+      this.user.type = null
+      this.user.status = null
+      this.user.profile = null
+      this.user.information = null
+      this.user.code = null
+      this.user.subAccount = null
+    }else{
+      this.user.userID = user.id
+      this.user.username = user.username
+      this.user.email = user.email
+      this.user.type = user.account_type
+      this.user.status = user.status
+      this.user.profile = user.profile
+      this.user.information = user.information
+      this.user.code = user.code
+      this.user.merchant = user.merchant
+      localStorage.setItem('account_id', this.user.userID)
+      setTimeout(() => {
+        this.tokenData.verifyingToken = false
+        this.tokenData.loading = false
+        // this.updateData()
+      }, 100)
     }
-    this.user.userID = userID * 1
-    this.user.username = username
-    this.user.email = email
-    this.user.type = type
-    this.user.status = status
-    this.user.profile = profile
-    this.user.notifSetting = notifSetting
-    this.user.subAccount = subAccount
-    this.user.code = code
-    localStorage.setItem('account_id', this.user.userID)
-    setTimeout(() => {
-      this.tokenData.loading = false
-    }, 1000)
   },
   setToken(token){
     this.tokenData.token = token
@@ -112,26 +118,10 @@ export default {
     }
     vue.APIRequest('authenticate', credentials, (response) => {
       this.tokenData.token = response.token
+      this.setToken(this.tokenData.token)
       vue.APIRequest('authenticate/user', {}, (userInfo) => {
-        let parameter = {
-          'condition': [{
-            'value': userInfo.id,
-            'clause': '=',
-            'column': 'id'
-          }]
-        }
-        vue.APIRequest('accounts/retrieve', parameter).then(response => {
-          if(response.data.length > 0){
-            this.otpDataHolder.userInfo = userInfo
-            this.otpDataHolder.data = response.data
-            this.checkOtp(response.data[0].notification_settings)
-          }
-        })
-        this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
-        if(callback){
-          callback(userInfo)
-        }
+        this.setUser(userInfo, null, null)
+        this.updateData()
       })
     }, (response, status) => {
       if(errorCallback){
@@ -149,34 +139,11 @@ export default {
       this.setToken(token)
       let vue = new Vue()
       vue.APIRequest('authenticate/user', {}, (userInfo) => {
-        let parameter = {
-          'condition': [{
-            'value': userInfo.id,
-            'clause': '=',
-            'column': 'id'
-          }]
-        }
-        vue.APIRequest('accounts/retrieve', parameter).then(response => {
-          let profile = response.data[0].account_profile
-          let notifSetting = response.data[0].notification_settings
-          let subAccount = response.data[0].sub_account
-          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount, userInfo.code)
-        }).done(response => {
-          this.tokenData.verifyingToken = false
-          this.tokenData.loading = false
-          let location = window.location.href
-          if(this.currentPath){
-            // ROUTER.push(this.currentPath)
-          }else{
-            window.location.href = location
-          }
-        })
-        this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
-        this.getGoogleCode()
+        this.setUser(userInfo, null, null)
       }, (response) => {
         this.setToken(null)
         this.tokenData.verifyingToken = false
+        this.tokenData.loading = false
         ROUTER.push({
           path: this.currentPath
         })
@@ -184,6 +151,7 @@ export default {
       return true
     }else{
       this.tokenData.verifyingToken = false
+      this.tokenData.loading = false
       this.setUser(null)
       return false
     }
@@ -196,7 +164,6 @@ export default {
     localStorage.removeItem('google_code')
     localStorage.removeItem('google_scope')
     localStorage.removeItem('xyzABCdefPayhiram')
-    console.log('deaunthenticate')
     this.setUser(null)
     let vue = new Vue()
     vue.APIRequest('authenticate/invalidate')
@@ -278,15 +245,6 @@ export default {
     })
     sound.play()
   },
-  checkPlan(){
-    if(Config.plan === true){
-      if(this.user.plan !== null){
-        if(this.user.plan.title === 'Expired' && this.user.type !== 'ADMIN'){
-          ROUTER.push('/plan')
-        }
-      }
-    }
-  },
   redirect(path){
     ROUTER.push(path)
   },
@@ -312,21 +270,15 @@ export default {
           show: true
         })
       }else{
-        this.proceedToLogin()
+        this.updateData()
       }
     }else{
-      this.proceedToLogin()
+      this.updateData()
     }
   },
-  proceedToLogin(){
-    this.setToken(this.tokenData.token)
-    let userInfo = this.otpDataHolder.userInfo
-    let data = this.otpDataHolder.data
-    let profile = data[0].account_profile
-    let notifSetting = data[0].notification_settings
-    let subAccount = data[0].sub_account
-    this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
-    ROUTER.push('/accounts')
+  updateData(){
+    console.log('dashboard')
+    ROUTER.push('/dashboard')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
@@ -353,15 +305,5 @@ export default {
       currency: currency
     })
     return formatter.format(amount)
-  },
-  showRequestType(type){
-    switch(parseInt(type)){
-      case 1: return 'Send'
-      case 2: return 'Withdrawal'
-      case 3: return 'Deposit'
-      case 4: return 'Bills and Payments'
-      case 101: return 'Lending'
-      case 102: return 'Installment'
-    }
   }
 }
