@@ -33,7 +33,7 @@ export default {
   settingsMenu: [
     {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address']},
     {title: 'Account', type: 'account', allowed: []},
-    {title: 'Business Setting', type: 'merchant', allowed: ['prefix', 'website', 'address', 'schedule']}
+    {title: 'Business Setting', type: 'merchant', allowed: ['prefix', 'website', 'address', 'schedule', 'information']}
   ],
   ecommerce: {
     inventoryType: 'all',
