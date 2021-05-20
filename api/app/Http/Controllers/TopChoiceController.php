@@ -29,7 +29,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
-                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByParams('payload_value_1', $key);
+                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $key);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
