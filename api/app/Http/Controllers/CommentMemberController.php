@@ -29,4 +29,16 @@ class CommentMemberController extends APIController
         $result = CommentMember::where('account_id', '=', $accountId)->where('comment_id', '=', $commentId)->get();
         return sizeof($result) > 0 ? true : false;
     }
+
+    public function retrieveMemberWithInfo($commentId){
+        $result = CommentMember::where('comment_id', '=', $commentId)->where('deleted_at', '=', null)->get();
+        if(sizeof($result) > 0){
+            $i=0;
+            foreach ($result as $key) {
+                $result[$i]['account'] = $this->retrieveFullAccountDetails($key['account_id']);
+                $i++;
+            }
+        }
+        return $result;
+    }
 }
