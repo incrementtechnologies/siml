@@ -17,7 +17,7 @@
             <i class="fas fa-chevron-up pull-right action-link" @click="sortArrayTitle('desc')" v-if="activeSortTitle === 'asc'"></i>
             <i class="fas fa-chevron-down  pull-right action-link" @click="sortArrayTitle('asc')" v-if="activeSortTitle === 'desc'"></i>
           </td>
-          <td>Type</td>
+          <td>Cuisine</td>
           <td>Status</td>
           <td>Action</td>
         </tr>

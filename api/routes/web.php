@@ -300,6 +300,7 @@ $route = env('PACKAGE_ROUTE', '').'/top_choices/';
 $controller = 'TopChoiceController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'retrieve_activities', $controller."retrieveActivities");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
