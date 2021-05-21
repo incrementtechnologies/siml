@@ -304,6 +304,11 @@ Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
 
+//CommmentMember Controller
+$route = env('PACKAGE_ROUTE', '').'/comment_members/';
+$controller = 'CommentMemberController@';
+Route::post($route.'create', $controller."create");
+
 // MyCircles Controller
 // $route = env('PACKAGE_ROUTE', '').'/my_circle/';
 // $controller = 'MyCircleController@';
