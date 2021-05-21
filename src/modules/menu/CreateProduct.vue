@@ -25,6 +25,10 @@
               <label for="exampleInputEmail1">Description</label>
               <input type="text" class="form-control" placeholder="Type description here..." v-model="description">
             </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Cuisine</label>
+              <input type="text" class="form-control" placeholder="Type cuisine here..." v-model="type">
+            </div>
             <!-- <div class="form-group">
               <input class="form-check-input" type="checkbox" v-model="option" id="defaultCheck1" style="margin-left: 0px;">
               <label class="form-check-label" for="defaultCheck1">
@@ -65,7 +69,8 @@ export default {
       title: null,
       description: null,
       option: false,
-      common: COMMON
+      common: COMMON,
+      type: null
     }
   },
   props: ['params'],
@@ -85,9 +90,9 @@ export default {
           description: this.description,
           status: 'pending',
           merchant_id: this.user.merchant.id,
-          inventory_type: 'all'
+          inventory_type: 'all',
+          type: this.type
         }
-        parameter['type'] = this.option === true ? 'bundled' : 'regular'
         $('#loading').css({display: 'block'})
         this.APIRequest('products/create', parameter).then(response => {
           $('#loading').css({display: 'none'})

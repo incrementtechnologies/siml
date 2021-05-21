@@ -25,9 +25,33 @@ class TopChoiceController extends APIController
         $j = 0;
         if(sizeof($result) > 0){
             foreach($result as $key => $element) {
-                $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->get();
+                $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->where('synqt_id', '=', $con[0]['value'])->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
+                foreach($synqts[$i]['members'] as $el) {
+                    $el['name'] = $this->retrieveNameOnly($el->account_id);
+                    $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
+                    $j++;
+                }
+                $i++;
+            }
+        }
+        $this->response['data'] = $synqts;
+        return $this->response();
+    }
+
+    public function retrieveActivities(Request $request) {
+        $data = $request->all();
+        $con = $data['condition'];
+        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->where($con[1]['column'], $con[1]['clause'], $con[1]['value'])->where('deleted_at', '=', null)->select('synqt_id', 'payload_value', 'account_id')->offset($data['offset'])->limit($data['limit'])->get();
+        $synqts = null;
+        $i = 0;
+        $j = 0;
+        if(sizeof($result) > 0){
+            foreach($result as $element) {
+                $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $element->payload_value)->where('synqt_id', '=', $element->synqt_id)->get();
+                $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $element->synqt_id);
+                $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $element->payload_value);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
