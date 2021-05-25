@@ -60,7 +60,7 @@
           <div class="form-group">
             <label for="name">Status: <span>*</span></label>
             <br>
-            <select class="form-group form-control-custom form-control" v-model="status">
+            <select class="form-group form-control-custom form-control" v-model="status" :disabled="status === 'completed' || status === 'cancelled'">
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
