@@ -106,19 +106,20 @@ export default {
           title: 'Date of reservation ascending',
           payload: 'datetime',
           payload_value: 'asc',
-          type: 'text'
+          type: 'date'
         }, {
           title: 'Date of reservation descending',
           payload: 'datetime',
           payload_value: 'desc',
-          type: 'text'
+          type: 'date'
         }]
       }],
       currentFilter: null,
       currentSort: null,
       offset: 0,
       limit: 6,
-      id: null
+      id: null,
+      synqt: null
     }
   },
   components: {
@@ -146,9 +147,14 @@ export default {
           value: this.user.merchant.id,
           column: 'merchant_id',
           clause: '='
+        }, {
+          value: '%' + this.currentFilter.value + '%',
+          column: 'datetime',
+          clause: 'like'
         }],
         limit: this.limit,
-        offset: this.offset
+        offset: this.offset,
+        sort: sort
       }
       $('#loading').css({'display': 'block'})
       this.APIRequest('reservations/retrieve', parameter).then(response => {
@@ -174,7 +180,10 @@ export default {
         $('#loading').css({'display': 'none'})
         if(response.data !== null){
           $('#editBooking').modal('hide')
-          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+          this.APIRequest('synqts/update', {id: this.synqt, status: this.status}).then(response => {
+            console.log(response)
+          })
+          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
         }
       })
     },
@@ -186,7 +195,7 @@ export default {
       this.APIRequest('reservations/delete', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data !== null){
-          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''})
+          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
         }
       })
     },
@@ -196,6 +205,7 @@ export default {
       this.status = item.status
       this.guest = item.members ? item.members.length : 0
       this.editId = item.id
+      this.synqt = item.payload_value
       $('#editBooking').modal('show')
     },
     hideModal() {
