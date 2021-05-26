@@ -11,6 +11,7 @@ class TopChoiceController extends APIController
     public $synqtClass = 'App\Http\Controllers\SynqtController';
     public $merchantClass = 'Increment\Imarket\Merchant\Http\MerchantController';
     public $ratingClass = 'Increment\Common\Rating\Http\RatingController';
+    public $locationClass = 'Increment\Common\Location\Http\LocationController';
 
     function __construct(){
         $this->model = new TopChoice();
@@ -30,6 +31,8 @@ class TopChoiceController extends APIController
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
                 $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $key);
+                $synqts[$i]['total_super_likes'] = $this->countByParams('merchant_id', $key, 'super-like');
+                $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('merchant_id', $key, $data['merchant_id']);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
@@ -54,6 +57,9 @@ class TopChoiceController extends APIController
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $element->payload_value)->where('synqt_id', '=', $element->synqt_id)->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $element->synqt_id);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $element->payload_value);
+                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element->payload_value);
+                $synqts[$i]['total_super_likes'] = $this->countByParams('merchant_id', $element->payload_value, 'super-like');
+                $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('merchant_id', $element->payload_value, $data['merchant_id']);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
@@ -64,5 +70,10 @@ class TopChoiceController extends APIController
         }
         $this->response['data'] = $synqts;
         return $this->response();
+    }
+
+    public function countByParams($column, $value, $status){
+        $result = TopChoice::where($column, '=', $value)->where('status', '=', $status)->count();
+        return $result;
     }
 }
