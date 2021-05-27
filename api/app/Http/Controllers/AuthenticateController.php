@@ -52,13 +52,21 @@ class AuthenticateController extends Controller
     $credentials = null;
     $result = null;
     if($this->customValidate($text) == true){        
-      $credentials = array("email" => $data['username'], 'password' => $data['password']);
       // $result = Account::where('email', '=', $data['username'])->get();
       $result = Account::whereRaw("BINARY email='".$data["username"]."'")->get();
+      if(sizeof($result) > 0){
+        $credentials = array("email" => $data['username'], 'password' => $data['password']);
+      }else{
+        return response()->json(['error' => 'invalid_credentials'], 401);
+      }
     }else{
-      $credentials = array("username" => $data['username'], 'password' => $data['password']);
       // $result = Account::where('username', '=', $data['username'])->get();
       $result = Account::whereRaw("BINARY username='".$data["username"]."'")->get();
+      if(sizeof($result) > 0){
+        $credentials = array("username" => $data['username'], 'password' => $data['password']);
+      }else{
+        return response()->json(['error' => 'invalid_credentials'], 401);
+      }
     }
     if(sizeof($result) > 0){
       // app('App\Http\Controllers\NotificationSettingController')->manageNotification($result[0]['id']);
