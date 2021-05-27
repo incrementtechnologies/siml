@@ -18,7 +18,7 @@
             <i class="fas fa-chevron-down  pull-right action-link" @click="sortArrayTitle('asc')" v-if="activeSortTitle === 'desc'"></i>
           </td>
           <td>Cuisine</td>
-          <td>Status</td>
+          <td>Price</td>
           <td>Action</td>
         </tr>
       </thead>
@@ -28,7 +28,7 @@
             {{item.title}}
           </td>
           <td>{{item.type}}</td>
-          <td>{{item.status}}</td>
+          <td>{{item.price !== null && item.price.length > 0 ? item.price[0].currency + ' ' + item.price[0].price : 0}}</td>
           <td>
             <button class="btn btn-primary" @click="update(item)">EDIT</button>
             <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
@@ -117,23 +117,13 @@ export default {
           payload_value: 'desc',
           type: 'text'
         }, {
-          title: 'Type ascending',
+          title: 'Cuisine ascending',
           payload: 'type',
           payload_value: 'asc',
           type: 'text'
         }, {
-          title: 'Type descending',
+          title: 'Cuisine descending',
           payload: 'type',
-          payload_value: 'desc',
-          type: 'text'
-        }, {
-          title: 'Status ascending',
-          payload: 'status',
-          payload_value: 'asc',
-          type: 'text'
-        }, {
-          title: 'Status descending',
-          payload: 'status',
           payload_value: 'desc',
           type: 'text'
         }]
@@ -146,7 +136,7 @@ export default {
     }
   },
   components: {
-    'filter-product': require('components/increment/imarketvue/filter/Product.vue'),
+    'filter-product': require('components/increment/ecommerce/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue'),
     'create': require('modules/menu/CreateProduct.vue')

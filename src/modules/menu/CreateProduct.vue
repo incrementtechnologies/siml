@@ -18,16 +18,28 @@
             <br v-if="errorMessage !== null">
             <br>
             <div class="form-group">
-              <label for="exampleInputEmail1">Product Name</label>
+              <label>Product Name</label>
               <input type="text" class="form-control" placeholder="Type name of product here..." v-model="title">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Description</label>
+              <label>Description</label>
               <input type="text" class="form-control" placeholder="Type description here..." v-model="description">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Cuisine</label>
+              <label>Cuisine</label>
               <input type="text" class="form-control" placeholder="Type cuisine here..." v-model="type">
+            </div>
+             <div class="form-group">
+              <label>Price</label>
+              <input type="number" class="form-control" placeholder="Type price here..." v-model="price">
+            </div>
+             <div class="form-group">
+              <label>Price Currency</label>
+              <select class="form-control form-control-custom" v-model="currency">
+                <option value = null hidden></option>
+                <option>PHP</option>
+                <option>USD</option>
+              </select>
             </div>
             <!-- <div class="form-group">
               <input class="form-check-input" type="checkbox" v-model="option" id="defaultCheck1" style="margin-left: 0px;">
@@ -70,7 +82,9 @@ export default {
       description: null,
       option: false,
       common: COMMON,
-      type: null
+      type: null,
+      price: null,
+      currency: null
     }
   },
   props: ['params'],
@@ -97,10 +111,23 @@ export default {
         this.APIRequest('products/create', parameter).then(response => {
           $('#loading').css({display: 'none'})
           if(response.data > 0){
+            this.createPrice(response.data)
             this.retrieve(response.data)
           }
         })
       }
+    },
+    createPrice(id) {
+      let parameter = {
+        product_id: id,
+        price: this.price,
+        currency: this.currency,
+        type: 'regular'
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('pricings/create', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+      })
     },
     retrieve(id){
       let parameter = {

@@ -123,7 +123,7 @@ export default {
     }
   },
   components: {
-    'filter-product': require('components/increment/imarketvue/filter/Product.vue'),
+    'filter-product': require('components/increment/ecommerce/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
@@ -152,8 +152,8 @@ export default {
           column: 'datetime',
           clause: 'like'
         }],
-        limit: this.limit,
-        offset: this.offset,
+        limit: flag ? this.limit : this.offset + this.limit,
+        offset: flag ? this.offset : 0,
         sort: sort
       }
       $('#loading').css({'display': 'block'})
