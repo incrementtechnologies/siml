@@ -291,6 +291,7 @@ Route::post($route.'search', $controller."search");
 $route = env('PACKAGE_ROUTE', '').'/synqts/';
 $controller = 'SynqtController@';
 Route::post($route.'create', $controller."create");
+Route::post($route.'search', $controller."Search");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
@@ -309,6 +310,7 @@ Route::post($route.'update', $controller."update");
 $route = env('PACKAGE_ROUTE', '').'/comment_members/';
 $controller = 'CommentMemberController@';
 Route::post($route.'create', $controller."create");
+
 
 // MyCircles Controller
 // $route = env('PACKAGE_ROUTE', '').'/my_circle/';
