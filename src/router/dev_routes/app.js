@@ -92,13 +92,6 @@ export default{
       tokenRequired: true
     }
   }, {
-    path: '/profile/:parameter?',
-    name: 'profile',
-    component: resolve => require(['components/increment/settings/UpdateBasic.vue'], resolve),
-    meta: {
-      tokenRequired: true
-    }
-  }, {
     path: '/bookings',
     name: 'produbookingscts',
     component: resolve => require(['modules/booking/List.vue'], resolve),
