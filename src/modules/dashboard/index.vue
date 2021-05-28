@@ -88,9 +88,14 @@ export default {
           value: 'pending',
           column: 'status',
           clause: '='
+        }, {
+          value: '%%',
+          column: 'details',
+          clause: 'like'
         }],
         limit: this.limit,
-        offset: this.offset
+        offset: this.offset,
+        sort: {datetime: 'asc'}
       }
       $('#loading').css({'display': 'block'})
       this.APIRequest('reservations/retrieve', parameter).then(response => {
