@@ -6,7 +6,7 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       :grid="['list']">
     </filter-product>
-    <table v-if="data.length > 0" class="table table-bordered table-responsive">
+    <table v-if="data !== null && data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
           <td>Reservee
@@ -74,7 +74,7 @@
       </div>
     </div>
     </div>
-    <empty v-if="data.length === 0" :title="'Empty Bookings!'" :action="'No activity at the moment.'"></empty>
+    <empty v-if="data === null || data.length === 0" :title="'Empty Bookings!'" :action="'No activity at the moment.'"></empty>
     <confirmation
     :title="'Confirmation Modal'"
     :message="'Are you sure you want to delete ?'"
@@ -148,7 +148,7 @@ export default {
           column: 'merchant_id',
           clause: '='
         }, {
-          value: '%' + this.currentFilter.value + '%',
+          value: this.currentFilter.value ? '%' + this.currentFilter.value + '%' : '%%',
           column: 'datetime',
           clause: 'like'
         }],
@@ -157,16 +157,15 @@ export default {
         sort: sort
       }
       $('#loading').css({'display': 'block'})
+      console.log(flag)
       this.APIRequest('reservations/retrieve', parameter).then(response => {
         $('#loading').css({'display': 'none'})
-        if(response.data.length > 0){
-          if(flag === true) {
-            response.data.forEach(element => {
-              this.data.push(element)
-            })
-          } else {
-            this.data = response.data
-          }
+        if(flag === true) {
+          response.data.forEach(element => {
+            this.data.push(element)
+          })
+        } else {
+          this.data = response.data
         }
       })
     },
