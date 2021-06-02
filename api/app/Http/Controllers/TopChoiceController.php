@@ -31,8 +31,8 @@ class TopChoiceController extends APIController
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->where('synqt_id', '=', $con[0]['value'])->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
-                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $key);
-                $synqts[$i]['total_super_likes'] = $this->countByParams('payload_value', $key, 'super-like');
+                $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element[0]['payload_value']);
+                $synqts[$i]['total_super_likes'] = $this->countByParams('payload_value', $element[0]['synqt_id'], 'super-like');
                 $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('account_id', $synqts[$i]['merchant']['account_id'], $con[0]['value']);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
