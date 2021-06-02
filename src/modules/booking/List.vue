@@ -60,7 +60,7 @@
           <div class="form-group">
             <label for="name">Status: <span>*</span></label>
             <br>
-            <select class="form-group form-control-custom form-control" v-model="status" :disabled="status === 'completed' || status === 'cancelled'">
+            <select class="form-group form-control-custom form-control" v-model="status" :disabled="reservationStatus === 'completed' || reservationStatus === 'cancelled'">
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
@@ -119,7 +119,8 @@ export default {
       offset: 0,
       limit: 6,
       id: null,
-      synqt: null
+      synqt: null,
+      reservationStatus: false
     }
   },
   components: {
@@ -205,6 +206,8 @@ export default {
       this.guest = item.members ? item.members.length : 0
       this.editId = item.id
       this.synqt = item.payload_value
+      this.reservationStatus = item.status
+      console.log(this.reservationStatus)
       $('#editBooking').modal('show')
     },
     hideModal() {
