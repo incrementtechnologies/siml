@@ -15,6 +15,7 @@
           </td>
           <td>Date of Reservation</td>
           <td>No. of Guest</td>
+          <td>Code</td>
           <td>Status</td>
           <td>Action</td>
         </tr>
@@ -26,6 +27,7 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
+          <td>{{item.code}}</td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" @click="showModal(item)">EDIT</button>
@@ -88,7 +90,7 @@
 import AUTH from 'src/services/auth'
 export default {
   mounted() {
-    this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
+    this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
   },
   data() {
     return {
@@ -103,6 +105,16 @@ export default {
       category: [{
         title: 'Bookings',
         sorting: [{
+          title: 'Status ascending',
+          payload: 'status',
+          payload_value: 'asc',
+          type: 'text'
+        }, {
+          title: 'Status descending',
+          payload: 'status',
+          payload_value: 'desc',
+          type: 'text'
+        }, {
           title: 'Date of reservation ascending',
           payload: 'datetime',
           payload_value: 'asc',
@@ -150,7 +162,7 @@ export default {
           clause: '='
         }, {
           value: this.currentFilter.value ? '%' + this.currentFilter.value + '%' : '%%',
-          column: 'datetime',
+          column: this.currentFilter.column,
           clause: 'like'
         }],
         limit: flag ? this.limit : this.offset + this.limit,
