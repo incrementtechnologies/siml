@@ -59,8 +59,8 @@ class SynqtController extends APIController
                 if ($totalDistance < $condition['radius']) {
                     $result = DB::table('products as T1')
                         ->leftJoin('pricings as T2', 'T1.id', '=', 'T2.product_id')
-                        ->where('T2.minimum', '=', $condition['min'])
-                        ->where('T2.maximum', '=', $condition['max'])
+                        ->where('T2.price', '>=', $condition['price_range']['min'])
+                        ->where('T2.price', '<=', $condition['price_range']['max'])
                         ->where('T2.account_id', '=', $key['account_id'])
                         ->get();
                     $result = json_decode(json_encode($result), true);
