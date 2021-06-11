@@ -32,7 +32,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
                 $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element[0]['payload_value']);
-                $synqts[$i]['total_super_likes'] = $this->countByParams('payload_value', $element[0]['synqt_id'], 'super-like');
+                $synqts[$i]['total_super_likes'] = $this->countByParams($con[0]['value'], $key);
                 $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('account_id', $synqts[$i]['merchant']['account_id'], $con[0]['value']);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
@@ -59,7 +59,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $element->synqt_id);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $element->payload_value);
                 $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element->payload_value);
-                $synqts[$i]['total_super_likes'] = $this->countByParams('synqt_id', $element->synqt_id, 'super-like');
+                $synqts[$i]['total_super_likes'] = $this->countByParams($element->synqt_id, $element->payload_value);
                 $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('account_id', $synqts[$i]['merchant']['account_id'], $con[0]['value']);
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
@@ -73,8 +73,8 @@ class TopChoiceController extends APIController
         return $this->response();
     }
 
-    public function countByParams($column, $value, $status){
-        $result = TopChoice::where($column, '=', $value)->where('status', '=', $status)->count();
+    public function countByParams($synqt, $merchant){
+        $result = TopChoice::where('synqt_id', '=', $synqt)->where('payload_value', '=', $merchant)->where('status', '=', 'super-like')->count();
         return $result;
     }
 
