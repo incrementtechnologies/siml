@@ -30,10 +30,11 @@ class TopChoiceController extends APIController
             foreach($result as $key => $element) {
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->where('synqt_id', '=', $con[0]['value'])->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
+                // dd($key);
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $key);
                 $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element[0]['payload_value']);
                 $synqts[$i]['total_super_likes'] = $this->countByParams($con[0]['value'], $key);
-                $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('account_id', $synqts[$i]['merchant']['account_id'], $con[0]['value']);
+                $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistanceByMerchant($synqts[$i]['synqt'][0]['location_id'], json_decode($synqts[$i]['merchant']['address'] ));
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
@@ -60,7 +61,7 @@ class TopChoiceController extends APIController
                 $synqts[$i]['merchant'] = app($this->merchantClass)->getByParams('id', $element->payload_value);
                 $synqts[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('merchant_id', $element->payload_value);
                 $synqts[$i]['total_super_likes'] = $this->countByParams($element->synqt_id, $element->payload_value);
-                $synqts[$i]['distance'] = app($this->locationClass)->getLocationDistance('account_id', $synqts[$i]['merchant']['account_id'], $con[0]['value']);
+                $synqts[$i]['distance'] =  app($this->locationClass)->getLocationDistanceByMerchant($synqts[$i]['synqt'][0]['location_id'], json_decode($synqts[$i]['merchant']['address'] ));
                 foreach($synqts[$i]['members'] as $el) {
                     $el['name'] = $this->retrieveNameOnly($el->account_id);
                     $el['account'] = $this->retrieveAccountDetailsProfileOnly($el->account_id);
