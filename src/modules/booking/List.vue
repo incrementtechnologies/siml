@@ -171,7 +171,7 @@ export default {
       }
       $('#loading').css({'display': 'block'})
       console.log(flag)
-      this.APIRequest('reservations/retrieve', parameter).then(response => {
+      this.APIRequest('reservations/retrieve_web', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(flag === true) {
           response.data.forEach(element => {
