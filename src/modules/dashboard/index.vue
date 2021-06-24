@@ -98,7 +98,7 @@ export default {
         sort: {datetime: 'asc'}
       }
       $('#loading').css({'display': 'block'})
-      this.APIRequest('reservations/retrieve', parameter).then(response => {
+      this.APIRequest('reservations/retrieve_web', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data.length > 0){
           if(flag === true) {
