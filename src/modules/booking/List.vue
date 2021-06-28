@@ -226,9 +226,6 @@ export default {
     removeItem(item) {
       this.id = item.id
       $('#connectionError').modal('show')
-    },
-    displayCode(code){
-      // console.log(code.slice(code.length - 6))
     }
   }
 }
