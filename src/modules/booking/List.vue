@@ -24,11 +24,10 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td>{{item.code}}</td>
+          <td @click="this.click = !this.click" style="cursor:pointer">{{click=== true ? item.code: item.code.slice(-6)}}</td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" @click="showModal(item)">EDIT</button>
-            <button class="btn btn-danger" @click="removeItem(item)">DELETE</button>
           </td>
         </tr>
       </tbody>
@@ -60,6 +59,7 @@
             <label for="name">Status: <span>*</span></label>
             <br>
             <select class="form-group form-control-custom form-control" v-model="status" :disabled="reservationStatus === 'completed' || reservationStatus === 'cancelled'">
+              <option value="cancelled">Accepted</option>
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
@@ -129,7 +129,8 @@ export default {
       limit: 6,
       id: null,
       synqt: null,
-      reservationStatus: false
+      reservationStatus: false,
+      click: false
     }
   },
   components: {
@@ -225,6 +226,9 @@ export default {
     removeItem(item) {
       this.id = item.id
       $('#connectionError').modal('show')
+    },
+    displayCode(code){
+      // console.log(code.slice(code.length - 6))
     }
   }
 }
