@@ -9,10 +9,7 @@
     <table v-if="data !== null && data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Reservee
-            <i class="fas fa-chevron-up pull-right action-link" @click="sortArrayTitle('desc')" v-if="activeSortTitle === 'asc'"></i>
-            <i class="fas fa-chevron-down  pull-right action-link" @click="sortArrayTitle('asc')" v-if="activeSortTitle === 'desc'"></i>
-          </td>
+          <td>Reservee</td>
           <td>Date of Reservation</td>
           <td>No. of Guest</td>
           <td>Code</td>
