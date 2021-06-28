@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary pull-right" data-toggle="modal" @click="title = null, description = null" data-target="#createProductModal" style="margin-bottom: 25px; float:right"><i class="fa fa-plus"></i> New Product
+    <button class="btn btn-primary pull-right" data-toggle="modal" @click="clear()" style="margin-bottom: 25px; float:right"><i class="fa fa-plus"></i> New Product
     </button>
     <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-md" role="document">
@@ -129,6 +129,15 @@ export default {
         $('#loading').css({display: 'none'})
       })
     },
+    clear() {
+      this.title = null
+      this.description = null
+      this.errorMessage = null
+      this.type = null
+      this.price = null
+      this.currency = null
+      $('#createProductModal').modal('show')
+    },
     retrieve(id){
       let parameter = {
         condition: [{
@@ -155,6 +164,18 @@ export default {
       }
       if(this.description === '' || this.description === null){
         this.errorMessage = 'Description is required.'
+        return false
+      }
+      if(this.type === '' || this.type === null){
+        this.errorMessage = 'Cuisine is required.'
+        return false
+      }
+      if(this.price === '' || this.price === null){
+        this.errorMessage = 'Price is required.'
+        return false
+      }
+      if(this.currency === '' || this.currency === null){
+        this.errorMessage = 'Currency is required.'
         return false
       }
       if(typeof this.common.ecommerce.productTitleLimit !== undefined && typeof this.common.ecommerce.productTitleLimit !== 'undefined' && this.title.length > this.common.ecommerce.productTitleLimit){
