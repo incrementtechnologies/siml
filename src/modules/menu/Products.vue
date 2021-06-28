@@ -13,7 +13,7 @@
     <table v-if="data.length > 0" class="table table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Title
+          <td>Product Name
             <i class="fas fa-chevron-up pull-right action-link" @click="sortArrayTitle('desc')" v-if="activeSortTitle === 'asc'"></i>
             <i class="fas fa-chevron-down  pull-right action-link" @click="sortArrayTitle('asc')" v-if="activeSortTitle === 'desc'"></i>
           </td>
@@ -163,7 +163,7 @@ export default {
       }
       let parameter = {
         condition: [{
-          value: this.currentFilter.value + '%',
+          value: '%' + this.currentFilter.value + '%',
           column: this.currentFilter.column,
           clause: 'like'
         }, {
@@ -194,7 +194,7 @@ export default {
 
     sortArrayTitle(sort){
       this.activeSortTitle = sort
-      if(sort === 'desc'){
+      if(sort === 'asc'){
         this.data = this.data.sort((a, b) => {
           return a.title < b.title ? -1 : 1
         })

@@ -150,7 +150,7 @@ export default {
     },
     validate(){
       if(this.title === null || this.title === ''){
-        this.errorMessage = 'Title is required.'
+        this.errorMessage = 'Product Name is required.'
         return false
       }
       if(this.description === '' || this.description === null){
@@ -158,7 +158,7 @@ export default {
         return false
       }
       if(typeof this.common.ecommerce.productTitleLimit !== undefined && typeof this.common.ecommerce.productTitleLimit !== 'undefined' && this.title.length > this.common.ecommerce.productTitleLimit){
-        this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
+        this.errorMessage = 'Product name length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         return false
       }
       return true
