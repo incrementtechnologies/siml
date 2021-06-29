@@ -24,7 +24,11 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td @click="toggleCode()" style="cursor:pointer" >{{click ? item.code : item.code.slice(-6)}}</td>
+          <td @click="toggleCode()" style="cursor:pointer" 
+            data-toggle="tooltip" data-placement="top" 
+            title="Click Me to Show the Entire Code" >
+              {{click ? item.code : item.code.slice(-6)}}
+          </td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" style="display: block;margin: auto;" @click="showModal(item)">EDIT</button>
@@ -130,7 +134,7 @@ export default {
       id: null,
       synqt: null,
       reservationStatus: false,
-      click: true
+      click: false
     }
   },
   components: {
@@ -233,4 +237,7 @@ export default {
     }
   }
 }
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
