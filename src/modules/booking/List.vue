@@ -24,10 +24,10 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td @click="this.click = !this.click" style="cursor:pointer">{{click=== true ? item.code: item.code.slice(-6)}}</td>
+          <td @click="toggleCode()" style="cursor:pointer" >{{this.click ? item.code : item.code.slice(-6)}}</td>
           <td>{{item.status}}</td>
           <td>
-            <button class="btn btn-primary" @click="showModal(item)">EDIT</button>
+            <button class="btn btn-primary" style="display: block;margin: auto;" @click="showModal(item)">EDIT</button>
           </td>
         </tr>
       </tbody>
@@ -226,6 +226,10 @@ export default {
     removeItem(item) {
       this.id = item.id
       $('#connectionError').modal('show')
+    },
+    toggleCode(){
+      this.click = !this.click
+      console.log(this.click)
     }
   }
 }
