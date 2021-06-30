@@ -25,10 +25,6 @@
               <label>Description</label>
               <input type="text" class="form-control" placeholder="Type description here..." v-model="description">
             </div>
-            <div class="form-group">
-              <label>Cuisine</label>
-              <input type="text" class="form-control" placeholder="Type cuisine here..." v-model="type">
-            </div>
              <div class="form-group">
               <label>Price</label>
               <input type="number" class="form-control" placeholder="Type price here..." v-model="price">
@@ -82,7 +78,6 @@ export default {
       description: null,
       option: false,
       common: COMMON,
-      type: null,
       price: null,
       currency: null
     }
@@ -105,7 +100,7 @@ export default {
           status: 'pending',
           merchant_id: this.user.merchant.id,
           inventory_type: 'all',
-          type: this.type
+          type: 'regular'
         }
         $('#loading').css({display: 'block'})
         this.APIRequest('products/create', parameter).then(response => {
@@ -133,7 +128,6 @@ export default {
       this.title = null
       this.description = null
       this.errorMessage = null
-      this.type = null
       this.price = null
       this.currency = null
       $('#createProductModal').modal('show')
@@ -164,10 +158,6 @@ export default {
       }
       if(this.description === '' || this.description === null){
         this.errorMessage = 'Description is required.'
-        return false
-      }
-      if(this.type === '' || this.type === null){
-        this.errorMessage = 'Cuisine is required.'
         return false
       }
       if(this.price === '' || this.price === null){
