@@ -24,11 +24,12 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td @click="toggleCode()" style="cursor:pointer" 
+          <td v-if="item.code !== null && item.status === 'completed'" @click="toggleCode()" style="cursor:pointer" 
             data-toggle="tooltip" data-placement="top" 
             title="Click Me to Show the Entire Code" >
-              {{click ? item.code : item.code.slice(-6)}}
+              {{click ? item.code : '...' + item.code.slice(-6)}}
           </td>
+          <td v-else></td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" style="display: block;margin: auto;" @click="showModal(item)">EDIT</button>

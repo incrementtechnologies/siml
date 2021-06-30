@@ -107,12 +107,12 @@ export default {
       category: [{
         title: 'Products',
         sorting: [{
-          title: 'Name ascending',
+          title: 'Product Name ascending',
           payload: 'title',
           payload_value: 'asc',
           type: 'text'
         }, {
-          title: 'Name descending',
+          title: 'Product Name descending',
           payload: 'title',
           payload_value: 'desc',
           type: 'text'
