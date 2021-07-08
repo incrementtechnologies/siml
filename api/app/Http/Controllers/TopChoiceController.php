@@ -21,13 +21,14 @@ class TopChoiceController extends APIController
     public function retrieve(Request $request){
         $data = $request->all();
         $con = $data['condition'];
-        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->where('deleted_at', '=', null)->select('synqt_id', 'payload_value', 'account_id')->offset($data['offset'])->limit($data['limit'])->get();
+        $result = TopChoice::where($con[0]['column'], $con[0]['clause'], $con[0]['value'])->where('deleted_at', '=', null)->select('synqt_id', 'payload_value', 'account_id')->get();
         $synqts = null;
         $result = $result->groupBy('payload_value');
         $i = 0;
         $j = 0;
         if(sizeof($result) > 0){
             foreach($result as $key => $element) {
+              if($i < 5) {
                 $synqts[$i]['members'] = TopChoice::where('payload_value', '=', $key)->where('synqt_id', '=', $con[0]['value'])->get();
                 $synqts[$i]['synqt'] = app($this->synqtClass)->retrieveByParams('id', $con[0]['value']);
                 // dd($key);
@@ -41,6 +42,9 @@ class TopChoiceController extends APIController
                     $j++;
                 }
                 $i++;
+              } else {
+                break;
+              }
             }
         }
         $this->response['data'] = $synqts;

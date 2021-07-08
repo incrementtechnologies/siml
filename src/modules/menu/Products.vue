@@ -17,7 +17,6 @@
             <i class="fas fa-chevron-up pull-right action-link" @click="sortArrayTitle('desc')" v-if="activeSortTitle === 'asc'"></i>
             <i class="fas fa-chevron-down  pull-right action-link" @click="sortArrayTitle('asc')" v-if="activeSortTitle === 'desc'"></i>
           </td>
-          <td>Cuisine</td>
           <td>Price</td>
           <td>Action</td>
         </tr>
@@ -27,7 +26,6 @@
           <td>
             {{item.title}}
           </td>
-          <td>{{item.type}}</td>
           <td>{{item.price !== null && item.price.length > 0 ? item.price[0].currency + ' ' + item.price[0].price : 0}}</td>
           <td>
             <button class="btn btn-primary" @click="update(item)">EDIT</button>
@@ -114,16 +112,6 @@ export default {
         }, {
           title: 'Product Name descending',
           payload: 'title',
-          payload_value: 'desc',
-          type: 'text'
-        }, {
-          title: 'Cuisine ascending',
-          payload: 'type',
-          payload_value: 'asc',
-          type: 'text'
-        }, {
-          title: 'Cuisine descending',
-          payload: 'type',
           payload_value: 'desc',
           type: 'text'
         }]
