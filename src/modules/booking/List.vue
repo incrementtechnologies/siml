@@ -92,7 +92,6 @@
 import AUTH from 'src/services/auth'
 export default {
   mounted() {
-    console.log(this.user)
     this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
   },
   data() {
@@ -199,7 +198,7 @@ export default {
           this.APIRequest('synqts/update', {id: this.synqt, status: this.status}).then(response => {
             console.log(response)
           })
-          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
+          this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
         }
       })
     },

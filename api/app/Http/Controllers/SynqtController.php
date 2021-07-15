@@ -78,7 +78,7 @@ class SynqtController extends APIController
   }
 
   public function retrieveSynqtByParams($column, $value){
-    $result = Synqt::where($column, '=', $value)->select('id', 'date')->where('deleted_at', '=', null)->get();
+    $result = Synqt::where($column, '=', $value)->select('id', 'date', 'location_id')->where('deleted_at', '=', null)->get();
     $result[0]['date_at_human'] = Carbon::createFromFormat('Y-m-d', $result[0]['date'])->copy()->tz($this->response['timezone'])->format('F j, Y');
     return sizeof($result) > 0 ? $result : [];
   }
