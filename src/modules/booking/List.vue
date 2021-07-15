@@ -24,7 +24,7 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td v-if="item.code !== null && item.status === 'completed'" @click="toggleCode()" style="cursor:pointer" 
+          <td v-if="item.status === 'accepted' || item.status === 'completed'" @click="toggleCode()" style="cursor:pointer" 
             data-toggle="tooltip" data-placement="top" 
             title="Click Me to Show the Entire Code" >
               {{click ? item.code : '...' + item.code.slice(-6)}}
@@ -92,6 +92,7 @@
 import AUTH from 'src/services/auth'
 export default {
   mounted() {
+    console.log(this.user)
     this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
   },
   data() {

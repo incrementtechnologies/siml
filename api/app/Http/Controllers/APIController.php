@@ -649,6 +649,7 @@ class APIController extends Controller
     if(sizeof($result) > 0){
       $profile =  app('Increment\Account\Http\AccountProfileController')->getAccountProfile($accountId);
       return array(
+        'id' => $result[0]['id'],
         'username'  => $result[0]['username'],
         'profile'   => $profile ? array(
           'url' =>  $profile['url']
