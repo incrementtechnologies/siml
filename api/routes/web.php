@@ -74,6 +74,7 @@ $route = env('PACKAGE_ROUTE', '').'/authenticate';
 Route::resource($route, 'AuthenticateController', ['only' => ['index']]);
 Route::post($route, 'AuthenticateController@authenticate');
 Route::post($route.'/user', 'AuthenticateController@getAuthenticatedUser');
+Route::post($route.'/social-user', 'AuthenticateController@getSocialAuthenticatedUser');
 Route::post($route.'/refresh', 'AuthenticateController@refreshToken');
 Route::post($route.'/invalidate', 'AuthenticateController@deauthenticate');
 Route::post($route.'/auth', function () {
@@ -311,6 +312,11 @@ $route = env('PACKAGE_ROUTE', '').'/comment_members/';
 $controller = 'CommentMemberController@';
 Route::post($route.'create', $controller."create");
 
+
+//Social Controller
+$route = env('PACKAGE_ROUTE', '').'/social/';
+$controller = 'SocialController@';
+Route::post($route.'social-user', $controller.'getSocialAuthenticatedUser');
 
 // MyCircles Controller
 // $route = env('PACKAGE_ROUTE', '').'/my_circle/';
