@@ -90,6 +90,7 @@
 </template>
 <script>
 import AUTH from 'src/services/auth'
+import moment from 'moment'
 export default {
   mounted() {
     this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
@@ -178,6 +179,7 @@ export default {
         $('#loading').css({'display': 'none'})
         if(flag === true) {
           response.data.forEach(element => {
+            element.date_time_at_human = moment(new Date(element.datetime)).format('LLL')
             this.data.push(element)
           })
         } else {
