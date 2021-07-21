@@ -86,9 +86,9 @@ export default {
           column: 'status',
           clause: '='
         }, {
-          value: '%%',
-          column: 'details',
-          clause: 'like'
+          value: this.user.merhant ? this.user.merhant.id : '%%',
+          column: this.user.merhant ? 'merchant_id' : 'details',
+          clause: this.user.merhant ? '=' : 'like'
         }],
         limit: this.limit,
         offset: this.offset,
