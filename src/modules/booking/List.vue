@@ -179,10 +179,13 @@ export default {
         $('#loading').css({'display': 'none'})
         if(flag === true) {
           response.data.forEach(element => {
-            element.date_time_at_human = moment(new Date(element.datetime)).format('LLL')
+            element.date_time_at_human = moment(new Date(element.datetime)).format('MMMM Do YYYY, hh:mm')
             this.data.push(element)
           })
         } else {
+          response.data.forEach(element => {
+            element.date_time_at_human = moment(new Date(element.datetime)).format('MMMM Do YYYY, hh:mm a')
+          })
           this.data = response.data
         }
       })
