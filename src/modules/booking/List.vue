@@ -179,7 +179,7 @@ export default {
         $('#loading').css({'display': 'none'})
         if(flag === true) {
           response.data.forEach(element => {
-            element.date_time_at_human = moment(new Date(element.datetime)).format('MMMM Do YYYY, hh:mm')
+            element.date_time_at_human = moment(new Date(element.datetime)).format('MMMM Do YYYY, hh:mm a')
             this.data.push(element)
           })
         } else {
@@ -203,7 +203,7 @@ export default {
           this.APIRequest('synqts/update', {id: this.synqt, status: this.status}).then(response => {
             console.log(response)
           })
-          this.retrieve({'status': 'asc'}, {column: 'status', value: ''}, false)
+          this.retrieve(this.currentSort, this.currentFilter, false)
         }
       })
     },
@@ -215,7 +215,7 @@ export default {
       this.APIRequest('reservations/delete', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data !== null){
-          this.retrieve({'datetime': 'asc'}, {column: 'datetime', value: ''}, false)
+          this.retrieve(this.currentSort, this.currentFilter, false)
         }
       })
     },
