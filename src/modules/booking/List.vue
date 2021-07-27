@@ -24,10 +24,8 @@
           </td>
           <td>{{item.date_time_at_human}}</td>
           <td>{{item.members ? item.members.length : 0}}</td>
-          <td v-if="item.status === 'accepted' || item.status === 'completed'" @click="toggleCode()" style="cursor:pointer" 
-            data-toggle="tooltip" data-placement="top" 
-            title="Click Me to Show the Entire Code" >
-              {{click ? item.code : '...' + item.code.slice(-6)}}
+          <td v-if="item.status === 'accepted' || item.status === 'completed'" @click="toggleCode(item)" style="cursor:pointer">
+              {{item.code.slice(-6)}}
           </td>
           <td v-else></td>
           <td>{{item.status}}</td>
@@ -86,6 +84,7 @@
     @onConfirm="remove()"
     >
     </confirmation>
+    <show-booking ref="booking"/>
   </div>
 </template>
 <script>
@@ -142,7 +141,8 @@ export default {
   components: {
     'filter-product': require('components/increment/ecommerce/filter/Product.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
-    'confirmation': require('components/increment/generic/modal/Confirmation.vue')
+    'confirmation': require('components/increment/generic/modal/Confirmation.vue'),
+    'show-booking': require('modules/booking/ReserveeInformation.vue')
   },
   methods: {
     retrieve(sort = null, filter = null, flag = null){
@@ -237,9 +237,9 @@ export default {
       this.id = item.id
       $('#connectionError').modal('show')
     },
-    toggleCode(){
+    toggleCode(item){
       this.click = !this.click
-      console.log(this.click)
+      this.$refs.booking.show(item)
     }
   }
 }
