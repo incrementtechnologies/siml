@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 56px;">
+  <div style="margin: 56px;" v-if="item">
    <div class="modal fade" id="showBooking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">

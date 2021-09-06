@@ -176,6 +176,8 @@ export default {
           } else {
             this.data = response.data
           }
+        } else {
+          this.data = []
         }
       })
     },
