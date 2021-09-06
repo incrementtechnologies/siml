@@ -174,9 +174,11 @@ export default {
         sort: sort
       }
       $('#loading').css({'display': 'block'})
-      console.log(flag)
       this.APIRequest('reservations/retrieve_web', parameter).then(response => {
         $('#loading').css({'display': 'none'})
+        if(response.data && response.data.length === 0 || response.data === null) {
+          this.data = []
+        }
         if(flag === true) {
           response.data.forEach(element => {
             element.date_time_at_human = moment(new Date(element.datetime)).format('MMMM Do YYYY, hh:mm a')
