@@ -139,7 +139,7 @@ export default {
     }
   },
   components: {
-    'filter-product': require('components/increment/ecommerce/filter/Product.vue'),
+    'filter-product': require('components/increment/generic/filter/Basic.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue'),
     'show-booking': require('modules/booking/ReserveeInformation.vue')
