@@ -22,7 +22,7 @@ class EnsureTokenIsValid
         // dd($_SERVER['SERVER_NAME']);
         $data = $request->all();
         if(isset($data['token'])){
-            $account = Account::where('token' ,'=', $data['token'])->first();
+            $account = Account::where('token' ,'like', '%'.$data['token'].'%')->first();
             if(isset($data['token']) && $account !== null){
                 return $next($request);
             }else{

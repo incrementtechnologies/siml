@@ -84,8 +84,11 @@ class AuthenticateController extends Controller
     if(sizeof($result) > 0){
       app('App\Http\Controllers\NotificationSettingController')->manageNotification($result[0]['id']);
       if($token && isset($token['token'])){
-        Account::where('id', '=', $result[0]['id'])->update(array(
+        $token = array(
           'token' => $token['token']
+        );
+        Account::where('id', '=', $result[0]['id'])->update(array(
+          'token' => json_encode($token)
         ));
       }
     }
