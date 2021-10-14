@@ -11,6 +11,7 @@ use App\Events\Notifications as EventNotifications;
 use App\Events\Message;
 use App\Events\MessageGroup;
 use App\Events\SystemNotification;
+use App\Http\Controllers\FirebaseController;
 use Pusher\Pusher;
 class Notifications implements ShouldQueue
 {
@@ -28,6 +29,7 @@ class Notifications implements ShouldQueue
     {
         $this->type = $type;
         $this->data = $data;
+        new FirebaseController();
         // if(env('PUSHER_TYPE') != 'self'){
         //     $options = array(
         //         'cluster' => env('OTHER_PUSHER_CLUSTER'),
@@ -49,22 +51,31 @@ class Notifications implements ShouldQueue
      */
     public function handle()
     {
-        switch ($this->type) {
-            case 'message_group':
-                broadcast(new MessageGroup($this->data));
-                break;
-            case 'notifications':
-                broadcast(new EventNotifications($this->data));
-                break;
-            case 'message':
-                broadcast(new Message($this->data));
-                break;
-            case 'system_notification':
-                broadcast(new SystemNotification($this->data));
-                break;
-            default:
-                # code...
-                break;
+      if($this->type === 'message') {
+        $members = $this->data['members'];
+        $condition = '';
+        if(sizeof($members) > 0) {
+          $i = 0;
+          foreach($members as $m) {
+            $condition .= '"'.env('APP_NAME').'-'.$m .'"'.' in topics';
+            if($i != (sizeof($members) - 1)) {
+              $condition .= ' || ';
+            }
+            $i++;
+          }
         }
+        $data = array(
+          'condition' => $condition,
+          'data'  => array(
+            'data' => json_encode($this->data)
+          ),
+          'notification' => array(
+            'title' => ucfirst($this->data['title']),
+            'body'  => $this->data['message'],
+            'imageUrl' => env('APP_URL').'/storage/logo/logo.png'
+            )
+          );
+          Firebase::dispatch($data);
+      }
     }
 }
