@@ -53,6 +53,10 @@ class Notifications implements ShouldQueue
     {
       if($this->type === 'message') {
         $members = $this->data['members'];
+        $index = $members->search(function($i) {
+          return $i == $this->data['account_id'];
+        });
+        $members->splice($index, 1);
         $condition = '';
         if(sizeof($members) > 0) {
           $i = 0;
