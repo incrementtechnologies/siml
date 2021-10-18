@@ -54,21 +54,7 @@ class FirebaseController extends APIController
 
   public function sendNew($data){
     try{
-      if(isset($data['data']['data'])){
-        $var = json_decode($data['data']['data'], true);
-        $message = CloudMessage::fromArray([
-          'topic' => env('APP_NAME'). '-' .(isset($var['account_id']) ? $var['account_id'] : $var['to']),
-          'notification' => $data['notification'],
-          'data' => $var
-        ]);
-      }else{
-        $var = $data['data'];
-        $message = CloudMessage::fromArray([
-          'topic' => $data['topic'],
-          'notification' => $data['notification'],
-          'data' => $var
-        ]);
-      }
+      $message = CloudMessage::fromArray($data);
       $this->messaging->send($message);
     }catch(Exception $e){
       //

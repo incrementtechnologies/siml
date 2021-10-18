@@ -76,6 +76,19 @@ class Notifications implements ShouldQueue
             )
           );
           Firebase::dispatch($data);
+      } else if($this->type === 'ticket-comment') {
+        $data = array(
+          'topic' => env('APP_NAME').'-ticket-comment',
+          'data'  => array(
+            'data' => json_encode($this->data)
+          ),
+          'notification' => array(
+            'title' => ucfirst($this->data['title']),
+            'body'  => $this->data['text'],
+            'imageUrl' => env('APP_URL').'/storage/logo/logo.png'
+            )
+          );
+          app('App\Http\Controllers\FirebaseController')->sendNew($this->data);
       }
     }
 }
