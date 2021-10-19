@@ -88,7 +88,7 @@ class Notifications implements ShouldQueue
             'imageUrl' => env('APP_URL').'/storage/logo/logo.png'
             )
           );
-          app('App\Http\Controllers\FirebaseController')->sendNew($this->data);
+          app('App\Http\Controllers\FirebaseController')->sendNew($data);
       }
     }
 }
