@@ -76,9 +76,9 @@ class Notifications implements ShouldQueue
             )
           );
           Firebase::dispatch($data);
-      } else if($this->type === 'ticket-comment' || 'comment-reply') {
+      } else if($this->type === 'ticket-comment') {
         $data = array(
-          'topic' => env('APP_NAME').'-'.$this->data['topic'],
+          'topic' => env('APP_NAME').'-ticket-comment',
           'data'  => array(
             'data' => json_encode($this->data)
           ),
@@ -89,6 +89,14 @@ class Notifications implements ShouldQueue
             )
           );
           app('App\Http\Controllers\FirebaseController')->sendNew($data);
+      } else if($this->type === 'comment-reply') {
+        $data = array(
+          'topic' => env('APP_NAME').'-comment-reply',
+          'data'  => array(
+            'data' => json_encode($this->data)
+          )
+        );
+        app('App\Http\Controllers\FirebaseController')->sendNew($data);
       }
     }
 }
